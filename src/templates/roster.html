@@ -1,8 +1,7 @@
 <form class="pure-form roster-filter-group input-button-group">
-    <input value="{{filter_text}}" class="roster-filter"
-           placeholder="{{placeholder}}"
-           {[ if (filter_type === 'state') { ]}  style="display: none" {[ } ]} >
-    <select class="state-type" {[ if (filter_type !== 'state') { ]}  style="display: none" {[ } ]} >
+    <input value="{{filter_text}}" class="roster-filter roster-filter-type-{{filter_type}}"
+           placeholder="{{placeholder}}">
+    <select class="state-type state-type-{{filter_type}}">
         <option value="">{{label_any}}</option>
         <option {[ if (chat_state === 'online') { ]} selected="selected" {[ } ]}
             value="online">{{label_online}}</option>
