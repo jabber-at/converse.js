@@ -5568,9 +5568,11 @@ return __p
         Strophe.addNamespace('CSI', 'urn:xmpp:csi:0');
         Strophe.addNamespace('DELAY', 'urn:xmpp:delay');
         Strophe.addNamespace('HINTS', 'urn:xmpp:hints');
+        Strophe.addNamespace('MAM', 'urn:xmpp:mam:0');
         Strophe.addNamespace('NICK', 'http://jabber.org/protocol/nick');
         Strophe.addNamespace('PUBSUB', 'http://jabber.org/protocol/pubsub');
         Strophe.addNamespace('ROSTERX', 'http://jabber.org/protocol/rosterx');
+        Strophe.addNamespace('RSM', 'http://jabber.org/protocol/rsm');
         Strophe.addNamespace('XFORM', 'jabber:x:data');
 
         // Instance level constants
@@ -6171,7 +6173,8 @@ return __p
                     'groups': [],
                     'image_type': DEFAULT_IMAGE_TYPE,
                     'image': DEFAULT_IMAGE,
-                    'status': ''
+                    'status': '',
+                    'num_unread': 0
                 }, attributes));
 
                 this.on('destroy', function () { this.removeFromRoster(); }.bind(this));
@@ -6861,7 +6864,7 @@ return __p
                  */
                 var original_stanza = message,
                     contact_jid, forwarded, delay, from_bare_jid,
-                    from_resource, is_me, msgid,
+                    from_resource, is_me, msgid, messages,
                     chatbox, resource,
                     from_jid = message.getAttribute('from'),
                     to_jid = message.getAttribute('to'),
@@ -6902,7 +6905,6 @@ return __p
                 from_bare_jid = Strophe.getBareJidFromJid(from_jid);
                 from_resource = Strophe.getResourceFromJid(from_jid);
                 is_me = from_bare_jid === _converse.bare_jid;
-                msgid = message.getAttribute('id');
                 if (is_me) {
                     // I am the sender, so this must be a forwarded message...
                     contact_jid = Strophe.getBareJidFromJid(to_jid);
@@ -6911,17 +6913,52 @@ return __p
                     contact_jid = from_bare_jid;
                     resource = from_resource;
                 }
-                _converse.emit('message', original_stanza);
                 // Get chat box, but only create a new one when the message has a body.
                 chatbox = this.getChatBox(contact_jid, !_.isNull(message.querySelector('body')));
-                if (!chatbox) {
-                    return true;
+                msgid = message.getAttribute('id');
+                if (chatbox) {
+                    messages = msgid && chatbox.messages.findWhere({msgid: msgid}) || [];
+                    if (_.isEmpty(messages)) {
+                        // Only create the message when we're sure it's not a
+                        // duplicate
+                        chatbox.createMessage(message, delay, original_stanza);
+                    }
                 }
-                if (msgid && chatbox.messages.findWhere({msgid: msgid})) {
-                    return true; // We already have this message stored.
-                }
-                chatbox.createMessage(message, delay, original_stanza);
+                _converse.emit('message', {'stanza': original_stanza, 'chatbox': chatbox});
                 return true;
+            },
+
+            createChatBox: function (jid, attrs) {
+                /* Creates a chat box
+                 *
+                 * Parameters:
+                 *    (String) jid - The JID of the user for whom a chat box
+                 *      gets created.
+                 *    (Object) attrs - Optional chat box atributes.
+                 */
+                var bare_jid = Strophe.getBareJidFromJid(jid);
+                var roster_info = {};
+                var roster_item = _converse.roster.get(bare_jid);
+                if (! _.isUndefined(roster_item)) {
+                    roster_info = {
+                        'fullname': _.isEmpty(roster_item.get('fullname'))? jid: roster_item.get('fullname'),
+                        'image_type': roster_item.get('image_type'),
+                        'image': roster_item.get('image'),
+                        'url': roster_item.get('url'),
+                    };
+                } else if (!_converse.allow_non_roster_messaging) {
+                    _converse.log('Could not get roster item for JID '+bare_jid+
+                        ' and allow_non_roster_messaging is set to false', 'error');
+                    return;
+                }
+                return this.create(_.assignIn({
+                        'id': bare_jid,
+                        'jid': bare_jid,
+                        'fullname': jid,
+                        'image_type': DEFAULT_IMAGE_TYPE,
+                        'image': DEFAULT_IMAGE,
+                        'url': '',
+                    }, roster_info, attrs || {}));
             },
 
             getChatBox: function (jid, create, attrs) {
@@ -6934,31 +6971,9 @@ return __p
                  *    (Object) attrs - Optional chat box atributes.
                  */
                 jid = jid.toLowerCase();
-                var bare_jid = Strophe.getBareJidFromJid(jid);
-                var chatbox = this.get(bare_jid);
+                var chatbox = this.get(Strophe.getBareJidFromJid(jid));
                 if (!chatbox && create) {
-                    var roster_info = {};
-                    var roster_item = _converse.roster.get(bare_jid);
-                    if (! _.isUndefined(roster_item)) {
-                        roster_info = {
-                            'fullname': _.isEmpty(roster_item.get('fullname'))? jid: roster_item.get('fullname'),
-                            'image_type': roster_item.get('image_type'),
-                            'image': roster_item.get('image'),
-                            'url': roster_item.get('url'),
-                        };
-                    } else if (!_converse.allow_non_roster_messaging) {
-                        _converse.log('Could not get roster item for JID '+bare_jid+
-                                    ' and allow_non_roster_messaging is set to false', 'error');
-                        return;
-                    }
-                    chatbox = this.create(_.assignIn({
-                        'id': bare_jid,
-                        'jid': bare_jid,
-                        'fullname': jid,
-                        'image_type': DEFAULT_IMAGE_TYPE,
-                        'image': DEFAULT_IMAGE,
-                        'url': '',
-                    }, roster_info, attrs || {}));
+                    chatbox = this.createChatBox(jid, attrs);
                 }
                 return chatbox;
             }
@@ -8306,6 +8321,10 @@ return __p
                     } else {
                         this.handleTextMessage(message);
                     }
+                    _converse.emit('messageAdded', {
+                        'message': message,
+                        'chatbox': this.model
+                    });
                 },
 
                 createMessageStanza: function (message) {
@@ -8803,7 +8822,7 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '<form class="pure-form set-xmpp-status" action="" method="post">\n    <span id="xmpp-status-holder">\n        <select id="select-xmpp-status" style="display:none">\n            <option value="online">' +
+__p += '<form class="pure-form set-xmpp-status" action="" method="post">\n    <span id="xmpp-status-holder">\n        <select id="select-xmpp-status">\n            <option value="online">' +
 __e(label_online) +
 '</option>\n            <option value="dnd">' +
 __e(label_busy) +
@@ -9053,7 +9072,7 @@ define('tpl!roster', ['lodash'], function(_) {return function(obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '<dl class="roster-contacts" style="display: none;"></dl>\n';
+__p += '<dl class="roster-contacts"></dl>\n';
 
 }
 return __p
@@ -9067,18 +9086,20 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<form class="pure-form roster-filter-form input-button-group">\n    <input value="' +
 ((__t = (filter_text)) == null ? '' : __t) +
-'" class="roster-filter"\n           placeholder="' +
+'" class="roster-filter roster-filter-' +
+((__t = (filter_type)) == null ? '' : __t) +
+'"\n           placeholder="' +
 ((__t = (placeholder)) == null ? '' : __t) +
-'"\n           ';
- if (filter_type === 'state') { ;
-__p += '  style="display: none" ';
- } ;
-__p += ' >\n    <select class="state-type" ';
- if (filter_type !== 'state') { ;
-__p += '  style="display: none" ';
- } ;
-__p += ' >\n        <option value="">' +
+'">\n           <select class="state-type state-type-' +
+((__t = (filter_type)) == null ? '' : __t) +
+'">\n        <option value="">' +
 ((__t = (label_any)) == null ? '' : __t) +
+'</option>\n        <option ';
+ if (chat_state === 'unread_messages') { ;
+__p += ' selected="selected" ';
+ } ;
+__p += '\n            value="unread_messages">' +
+((__t = (label_unread_messages)) == null ? '' : __t) +
 '</option>\n        <option ';
  if (chat_state === 'online') { ;
 __p += ' selected="selected" ';
@@ -9145,27 +9166,43 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '<a class="open-chat" title="' +
+__p += '<a class="open-chat ';
+ if (num_unread) { ;
+__p += ' unread-msgs ';
+ } ;
+__p += '"\n   title="' +
 __e(title_fullname) +
 ': ' +
 __e(fullname) +
-'\nJID: ' +
+' JID: ' +
 __e(jid) +
-'\n' +
+' ' +
 __e(desc_chat) +
-'" href="#"><span class="icon-' +
+'"\n   href="#">\n    <div class="avatar avatar-' +
+__e(chat_status) +
+'">\n        <span class="status-icon icon-' +
 __e(chat_status) +
 '" title="' +
 __e(desc_status) +
-'"></span>' +
+'"></span>\n        ';
+ if (num_unread) { ;
+__p += '\n        <span class="pulse"></span>\n        ';
+ } ;
+__p += '\n    </div>\n    <span class="contact-name unread-msgs">' +
 __e(fullname) +
-'</a>\n';
+'</span>\n    ';
+ if (num_unread) { ;
+__p += '\n    <span class="msgs-indicactor">' +
+__e( num_unread ) +
+'</span>\n    ';
+ } ;
+__p += '\n</a>\n';
  if (allow_contact_removal) { ;
 __p += '\n<a class="remove-xmpp-contact icon-remove" title="' +
 __e(desc_remove) +
 '" href="#"></a>\n';
  } ;
-__p += '\n';
+__p += '\n\n\n';
 
 }
 return __p
@@ -9203,6 +9240,7 @@ return __p
         Strophe = converse.env.Strophe,
         $iq = converse.env.$iq,
         b64_sha1 = converse.env.b64_sha1,
+        sizzle = converse.env.sizzle,
         _ = converse.env._;
 
 
@@ -9329,6 +9367,7 @@ return __p
                             label_groups: LABEL_GROUPS,
                             label_state: __('State'),
                             label_any: __('Any'),
+                            label_unread_messages: __('Unread'),
                             label_online: __('Online'),
                             label_chatty: __('Chatty'),
                             label_busy: __('Busy'),
@@ -9452,6 +9491,8 @@ return __p
                     _converse.on('rosterGroupsFetched', this.positionFetchedGroups, this);
                     _converse.on('rosterContactsFetched', this.update, this);
                     this.createRosterFilter();
+
+
                 },
 
                 render: function () {
@@ -9795,17 +9836,25 @@ return __p
                         ));
                     } else if (subscription === 'both' || subscription === 'to') {
                         this.el.classList.add('current-xmpp-contact');
-                        this.$el.removeClass(_.without(['both', 'to'], subscription)[0]).addClass(subscription);
-                        this.$el.html(tpl_roster_item(
-                            _.extend(item.toJSON(), {
-                                'desc_status': STATUSES[chat_status||'offline'],
-                                'desc_chat': __('Click to chat with this contact'),
-                                'desc_remove': __('Click to remove this contact'),
-                                'title_fullname': __('Name'),
-                                'allow_contact_removal': _converse.allow_contact_removal
-                            })
-                        ));
+                        this.el.classList.remove(_.without(['both', 'to'], subscription)[0])
+                        this.el.classList.add(subscription);
+                        this.renderRosterItem(item);
                     }
+                    return this;
+                },
+
+                renderRosterItem: function (item) {
+                    var chat_status = item.get('chat_status');
+                    this.$el.html(tpl_roster_item(
+                        _.extend(item.toJSON(), {
+                            'desc_status': STATUSES[chat_status||'offline'],
+                            'desc_chat': __('Click to chat with this contact'),
+                            'desc_remove': __('Click to remove this contact'),
+                            'title_fullname': __('Name'),
+                            'allow_contact_removal': _converse.allow_contact_removal,
+                            'num_unread': item.get('num_unread') || 0
+                        })
+                    ));
                     return this;
                 },
 
@@ -9850,7 +9899,8 @@ return __p
 
                 openChat: function (ev) {
                     if (ev && ev.preventDefault) { ev.preventDefault(); }
-                    return _converse.chatboxviews.showChat(this.model.attributes);
+                    this.model.save({'num_unread': 0});
+                    return _converse.chatboxviews.showChat(this.model.attributes, true);
                 },
 
                 removeContact: function (ev) {
@@ -10002,6 +10052,8 @@ return __p
                                         return utils.contains.not('chat_status', q)(contact) && !contact.get('requesting');
                                     }
                                 );
+                            } else if (q === 'unread_messages') {
+                                matches = this.model.contacts.filter({'num_unread': 0});
                             } else {
                                 matches = this.model.contacts.filter(
                                     utils.contains.not('chat_status', q)
@@ -10091,6 +10143,47 @@ return __p
 
             /* -------- Event Handlers ----------- */
 
+            var onChatBoxMaximized = function (chatboxview) {
+                /* When a chat box gets maximized, the num_unread counter needs
+                 * to be cleared.
+                 */
+                var chatbox = chatboxview.model;
+                if (chatbox.get('type') === 'chatroom') {
+                    // TODO
+                } else {
+                    var contact = _.head(_converse.roster.where({'jid': chatbox.get('jid')}));
+                    if (!_.isUndefined(contact)) {
+                        contact.save({'num_unread': 0});
+                    }
+                }
+            };
+
+            var onMessageReceived = function (data) {
+                /* Given a newly received message, update the unread counter on
+                 * the relevant roster contact (TODO: or chat room).
+                 */
+                var chatbox = data.chatbox;
+                if (_.isUndefined(chatbox)) {
+                    return;
+                }
+                if (_.isNull(data.stanza.querySelector('body'))) {
+                    return; // The message has no text
+                }
+                var new_message = !(sizzle('result[xmlns="'+Strophe.NS.MAM+'"]', data.stanza).length);
+                var hidden_or_minimized_chatbox = chatbox.get('hidden') || chatbox.get('minimized');
+
+                if (hidden_or_minimized_chatbox && new_message) {
+                    if (chatbox.get('type') === 'chatroom') {
+                        // TODO
+                    } else {
+                        var contact = _.head(_converse.roster.where({'jid': chatbox.get('jid')}));
+                        if (!_.isUndefined(contact)) {
+                            contact.save({'num_unread': contact.get('num_unread') + 1});
+                        }
+                    }
+                }
+            };
+
             var initRoster = function () {
                 /* Create an instance of RosterView once the RosterGroups
                  * collection has been created (in converse-core.js)
@@ -10100,8 +10193,10 @@ return __p
                 });
                 _converse.rosterview.render();
             };
-            _converse.on('rosterInitialized', initRoster);
-            _converse.on('rosterReadyAfterReconnection', initRoster);
+            _converse.api.listen.on('rosterInitialized', initRoster);
+            _converse.api.listen.on('rosterReadyAfterReconnection', initRoster);
+            _converse.api.listen.on('message', onMessageReceived);
+            _converse.api.listen.on('chatBoxMaximized', onChatBoxMaximized);
         }
     });
 }));
@@ -13407,7 +13502,10 @@ return __p
                     this.model.createMessage(message, delay, original_stanza);
                     if (sender !== this.model.get('nick')) {
                         // We only emit an event if it's not our own message
-                        _converse.emit('message', original_stanza);
+                        _converse.emit(
+                            'message',
+                            {'stanza': original_stanza, 'chatbox': this.model}
+                        );
                     }
                     return true;
                 }
@@ -14740,9 +14838,6 @@ return __p
     var RSM_ATTRIBUTES = ['max', 'first', 'last', 'after', 'before', 'index', 'count'];
     // XEP-0313 Message Archive Management
     var MAM_ATTRIBUTES = ['with', 'start', 'end'];
-
-    Strophe.addNamespace('MAM', 'urn:xmpp:mam:0');
-    Strophe.addNamespace('RSM', 'http://jabber.org/protocol/rsm');
 
     converse.plugins.add('converse-mam', {
 
@@ -16792,10 +16887,11 @@ return __p
                 }
             };
 
-            _converse.handleMessageNotification = function (message) {
+            _converse.handleMessageNotification = function (data) {
                 /* Event handler for the on('message') event. Will call methods
                  * to play sounds and show HTML5 notifications.
                  */
+                var message = data.stanza;
                 if (!_converse.shouldNotifyOfMessage(message)) {
                     return false;
                 }
@@ -16862,9 +16958,9 @@ __p +=
 __e(Minimized) +
 ' <span id="minimized-count">(' +
 __e(num_minimized) +
-')</span>\n<span class="unread-message-count"\n    ';
+')</span>\n<span class="unread-message-count\n    ';
  if (!num_unread) { ;
-__p += ' style="display: none" ';
+__p += ' unread-message-count-hidden ';
  } ;
 __p += '\n    href="#">' +
 __e(num_unread) +
@@ -16880,11 +16976,11 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '<a class="chatbox-btn close-chatbox-button icon-close"></a>\n<a class="chat-head-message-count" \n    ';
+__p += '<a class="chatbox-btn close-chatbox-button icon-close"></a>\n<a class="chat-head-message-count\n    ';
  if (!num_unread) { ;
-__p += ' style="display: none" ';
+__p += ' chat-head-message-count-hidden ';
  } ;
-__p += '\n    href="#">' +
+__p += '"\n    href="#">' +
 __e(num_unread) +
 '</a>\n<a href="#" class="restore-chat" title="' +
 __e(tooltip) +
@@ -17248,12 +17344,12 @@ return __p
                 },
 
                 clearUnreadMessagesCounter: function () {
-                    this.model.set({'num_unread': 0});
+                    this.model.save({'num_unread': 0});
                     this.render();
                 },
 
                 updateUnreadMessagesCounter: function () {
-                    this.model.set({'num_unread': this.model.get('num_unread') + 1});
+                    this.model.save({'num_unread': this.model.get('num_unread') + 1});
                     this.render();
                 },
 
@@ -17371,7 +17467,7 @@ return __p
                     var ls = this.model.pluck('num_unread'),
                         count = 0, i;
                     for (i=0; i<ls.length; i++) { count += ls[i]; }
-                    this.toggleview.model.set({'num_unread': count});
+                    this.toggleview.model.save({'num_unread': count});
                     this.render();
                 }
             });
@@ -17903,13 +17999,14 @@ return __p
                     if (_.includes(from_jid, '@') && !_converse.allow_non_roster_messaging) {
                         return;
                     }
-                    _converse.chatboxes.create({
+                    var chatbox = _converse.chatboxes.create({
                         'id': from_jid,
                         'jid': from_jid,
                         'fullname':  from_jid,
                         'type': 'headline'
-                    }).createMessage(message, undefined, message);
-                    _converse.emit('message', message);
+                    });
+                    chatbox.createMessage(message, undefined, message);
+                    _converse.emit('message', {'chatbox': chatbox, 'stanza': message});
                 }
                 return true;
             };
