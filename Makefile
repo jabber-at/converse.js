@@ -1,34 +1,23 @@
 # You can set these variables from the command line.
-BOWER           ?= node_modules/.bin/bower
 BUILDDIR        = ./docs
 BUNDLE          ?= ./.bundle/bin/bundle
 GRUNT           ?= ./node_modules/.bin/grunt
-HTTPSERVE		?= ./node_modules/.bin/http-server
-JSHINT 			?= ./node_modules/.bin/jshint
+HTTPSERVE       ?= ./node_modules/.bin/http-server
+ESLINT          ?= ./node_modules/.bin/eslint
 PAPER           =
 PHANTOMJS       ?= ./node_modules/.bin/phantomjs
-RJS				?= ./node_modules/.bin/r.js
+RJS             ?= ./node_modules/.bin/r.js
 PO2JSON         ?= ./node_modules/.bin/po2json
 SASS            ?= ./.bundle/bin/sass
-CLEANCSS        ?= ./node_modules/.bin/cleancss
+CLEANCSS        ?= ./node_modules/clean-css-cli/bin/cleancss --skip-rebase
 SPHINXBUILD     ?= ./bin/sphinx-build
 SPHINXOPTS      =
 
 # Internal variables.
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) ./docs/source
-SOURCES	= $(wildcard *.js) $(wildcard spec/*.js) $(wildcard src/*.js)
-JSHINTEXCEPTIONS = $(GENERATED) \
-		   src/otr.js \
-		   src/crypto.js \
-		   src/build-mobile.js \
-		   src/build-no-jquery.js \
-		   src/build-no-dependencies.js \
-		   src/build.js \
-		   src/bigint.js
-CHECKSOURCES	= $(filter-out $(JSHINTEXCEPTIONS),$(SOURCES))
 
 .PHONY: all
-all: dev
+all: dev dist
 
 .PHONY: help
 help:
@@ -37,7 +26,7 @@ help:
 	@echo " all           A synonym for 'make dev'."
 	@echo " build         Create minified builds of converse.js and all its dependencies."
 	@echo " changes       Make an overview of all changed/added/deprecated items added to the documentation."
-	@echo " clean         Remove downloaded the stamp-* guard files as well as all NPM, bower and Ruby packages."
+	@echo " clean         Remove downloaded the stamp-* guard files as well as all NPM and Ruby packages."
 	@echo " css           Generate CSS from the Sass files."
 	@echo " dev           Set up the development environment. To force a fresh start, run 'make clean' first."
 	@echo " epub          Export the documentation to epub."
@@ -49,7 +38,6 @@ help:
 	@echo " pot           Generate a gettext POT file to be used for translations."
 	@echo " release       Prepare a new release of converse.js. E.g. make release VERSION=0.9.5"
 	@echo " serve         Serve this directory via a webserver on port 8000."
-	@echo " stamp-bower   Install bower dependencies and create the guard file stamp-bower which will prevent those dependencies from being installed again."
 	@echo " stamp-npm     Install NPM dependencies and create the guard file stamp-npm which will prevent those dependencies from being installed again."
 	@echo " stamp-bundler Install Bundler (Ruby) dependencies and create the guard file stamp-bundler which will prevent those dependencies from being installed again."
 	@echo " watch         Tells Sass to watch the .scss files for changes and then automatically update the CSS files."
@@ -65,7 +53,7 @@ serve: stamp-npm
 ########################################################################
 ## Translation machinery
 
-GETTEXT = xgettext --keyword=__ --keyword=___ --from-code=UTF-8 --output=locale/converse.pot src/*.js --package-name=Converse.js --copyright-holder="Jan-Carel Brand" --package-version=0.10.1 -c
+GETTEXT = xgettext --keyword=__ --keyword=___ --from-code=UTF-8 --output=locale/converse.pot src/*.js --package-name=Converse.js --copyright-holder="Jan-Carel Brand" --package-version=3.0.2 -c
 
 .PHONY: pot
 pot:
@@ -84,15 +72,16 @@ po2json:
 
 .PHONY: release
 release:
-	sed -i s/Project-Id-Version:\ Converse\.js\ [0-9]\.[0-9]\.[0-9]/Project-Id-Version:\ Converse.js\ $(VERSION)/ locale/converse.pot
-	sed -i s/\"version\":\ \"[0-9]\.[0-9]\.[0-9]\"/\"version\":\ \"$(VERSION)\"/ bower.json
-	sed -i s/\"version\":\ \"[0-9]\.[0-9]\.[0-9]\"/\"version\":\ \"$(VERSION)\"/ package.json
-	sed -i s/--package-version=[0-9]\.[0-9]\.[0-9]/--package-version=$(VERSION)/ Makefile
-	sed -i s/v[0-9]\.[0-9]\.[0-9]\.zip/v$(VERSION)\.zip/ index.html
-	sed -i s/v[0-9]\.[0-9]\.[0-9]\.tar\.gz/v$(VERSION)\.tar\.gz/ index.html
-	sed -i s/version\ =\ \'[0-9]\.[0-9]\.[0-9]\'/version\ =\ \'$(VERSION)\'/ docs/source/conf.py
-	sed -i s/release\ =\ \'[0-9]\.[0-9]\.[0-9]\'/release\ =\ \'$(VERSION)\'/ docs/source/conf.py
-	sed -i "s/(Unreleased)/(`date +%Y-%m-%d`)/" docs/CHANGES.md
+	sed -ri s/Version:\ [0-9]\+\.[0-9]\+\.[0-9]\+/Version:\ $(VERSION)/ src/start.frag
+	sed -ri s/Project-Id-Version:\ Converse\.js\ [0-9]\+\.[0-9]\+\.[0-9]\+/Project-Id-Version:\ Converse.js\ $(VERSION)/ locale/converse.pot
+	sed -ri s/\"version\":\ \"[0-9]\+\.[0-9]\+\.[0-9]\+\"/\"version\":\ \"$(VERSION)\"/ bower.json
+	sed -ri s/\"version\":\ \"[0-9]\+\.[0-9]\+\.[0-9]\+\"/\"version\":\ \"$(VERSION)\"/ package.json
+	sed -ri s/--package-version=[0-9]\+\.[0-9]\+\.[0-9]\+/--package-version=$(VERSION)/ Makefile
+	sed -ri s/v[0-9]\+\.[0-9]\+\.[0-9]\+\.zip/v$(VERSION)\.zip/ index.html
+	sed -ri s/v[0-9]\+\.[0-9]\+\.[0-9]\+\.tar\.gz/v$(VERSION)\.tar\.gz/ index.html
+	sed -ri s/version\ =\ \'[0-9]\+\.[0-9]\+\.[0-9]\+\'/version\ =\ \'$(VERSION)\'/ docs/source/conf.py
+	sed -ri s/release\ =\ \'[0-9]\+\.[0-9]\+\.[0-9]\+\'/release\ =\ \'$(VERSION)\'/ docs/source/conf.py
+	sed -ri "s/(Unreleased)/(`date +%Y-%m-%d`)/" docs/CHANGES.md
 	make pot
 	make po
 	make po2json
@@ -105,10 +94,6 @@ stamp-npm: package.json
 	npm install
 	touch stamp-npm
 
-stamp-bower: stamp-npm bower.json
-	$(BOWER) install
-	touch stamp-bower
-
 stamp-bundler: Gemfile
 	mkdir -p .bundle
 	gem install --user bundler --bindir .bundle/bin
@@ -117,53 +102,71 @@ stamp-bundler: Gemfile
 
 .PHONY: clean
 clean:
-	-rm -f stamp-npm stamp-bower stamp-bundler
-	-rm -rf node_modules components .bundle
+	-rm -f stamp-npm stamp-bundler
+	-rm -rf node_modules .bundle
 
 .PHONY: dev
-dev: stamp-bower stamp-bundler build
+dev: stamp-bundler stamp-npm
 
 ########################################################################
 ## Builds
 
 .PHONY: css
-css: sass/*.scss css/converse.css css/converse.min.css
+css: sass/*.scss css/converse.css css/converse.min.css css/mobile.min.css css/theme.min.css css/converse-muc-embedded.min.css
 
-css/converse.css:: stamp-bundler stamp-bower sass
-	$(SASS) -I ./components/bourbon/app/assets/stylesheets/ sass/converse.scss css/converse.css
+css/converse-muc-embedded.css:: stamp-bundler sass
+	$(SASS) -I ./node_modules/bourbon/app/assets/stylesheets/ sass/_muc_embedded.scss css/converse-muc-embedded.css
 
-css/converse.min.css:: stamp-npm
+css/converse-muc-embedded.min.css:: stamp-bundler sass css/converse-muc-embedded.css
+	$(CLEANCSS) css/converse-muc-embedded.css > css/converse-muc-embedded.min.css
+
+css/converse.css:: stamp-bundler sass
+	$(SASS) -I ./node_modules/bourbon/app/assets/stylesheets/ sass/converse.scss css/converse.css
+
+css/converse.min.css:: stamp-npm sass
 	$(CLEANCSS) css/converse.css > css/converse.min.css
+
+css/theme.min.css:: stamp-npm css/theme.css
+	$(CLEANCSS) css/theme.css > css/theme.min.css
+
+css/mobile.min.css:: stamp-npm sass
+	$(CLEANCSS) css/mobile.css > css/mobile.min.css
 
 .PHONY: watch
 watch: stamp-bundler
-	$(SASS) --watch -I ./components/bourbon/app/assets/stylesheets/ sass/converse.scss:css/converse.css
+	$(SASS) --watch -I ./node_modules/bourbon/app/assets/stylesheets/ sass/converse.scss:css/converse.css sass/_muc_embedded.scss:css/converse-muc-embedded.css
 
 BUILDS = dist/converse.js \
 		 dist/converse.min.js \
          dist/converse-mobile.js \
          dist/converse-mobile.min.js \
-         dist/converse.nojquery.js \
- 		 dist/converse.nojquery.min.js \
+         dist/converse-muc-embedded.js \
+         dist/converse-muc-embedded.min.js \
+         dist/converse-no-jquery.js \
+ 		 dist/converse-no-jquery.min.js \
 		 dist/converse-no-dependencies.min.js \
 		 dist/converse-no-dependencies.js
 
-dist/converse.min.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build.js
-dist/converse.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build.js optimize=none out=dist/converse.js
-dist/converse.nojquery.min.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build-no-jquery.js
-dist/converse.nojquery.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build-no-jquery.js optimize=none out=dist/converse.nojquery.js
-dist/converse-no-dependencies.min.js: stamp-bower src locale components *.js
+dist/converse.min.js: src locale node_modules *.js
+	$(RJS) -o src/build.js include=converse out=dist/converse.min.js
+dist/converse.js: src locale node_modules *.js
+	$(RJS) -o src/build.js include=converse out=dist/converse.js optimize=none 
+dist/converse-no-jquery.min.js: src locale node_modules *.js
+	$(RJS) -o src/build.js include=converse wrap.endFile=end-no-jquery.frag exclude=jquery exclude=jquery.noconflict out=dist/converse-no-jquery.min.js
+dist/converse-no-jquery.js: src locale node_modules *.js
+	$(RJS) -o src/build.js include=converse wrap.endFile=end-no-jquery.frag exclude=jquery exclude=jquery.noconflict out=dist/converse-no-jquery.js optimize=none 
+dist/converse-no-dependencies.min.js: src locale node_modules *.js
 	$(RJS) -o src/build-no-dependencies.js
-dist/converse-no-dependencies.js: stamp-bower src locale components *.js
+dist/converse-no-dependencies.js: src locale node_modules *.js
 	$(RJS) -o src/build-no-dependencies.js optimize=none out=dist/converse-no-dependencies.js
-dist/converse-mobile.min.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build-mobile.js
-dist/converse-mobile.js: stamp-bower src locale components *.js
-	$(RJS) -o src/build-mobile.js optimize=none out=dist/converse-mobile.js
+dist/converse-mobile.min.js: src locale node_modules *.js
+	$(RJS) -o src/build.js paths.converse=src/converse-mobile include=converse out=dist/converse-mobile.min.js
+dist/converse-mobile.js: src locale node_modules *.js
+	$(RJS) -o src/build.js paths.converse=src/converse-mobile include=converse out=dist/converse-mobile.js optimize=none 
+dist/converse-muc-embedded.min.js: src locale node_modules *.js
+	$(RJS) -o src/build.js paths.converse=src/converse-embedded include=converse out=dist/converse-muc-embedded.min.js
+dist/converse-muc-embedded.js: src locale node_modules *.js
+	$(RJS) -o src/build.js paths.converse=src/converse-embedded include=converse out=dist/converse-muc-embedded.js optimize=none 
 
 .PHONY: jsmin
 jsmin: $(BUILDS)
@@ -172,20 +175,22 @@ jsmin: $(BUILDS)
 dist:: build
 
 .PHONY: build
-build:: stamp-npm css
+build:: dev css
 	$(GRUNT) json
 	make jsmin
 
 ########################################################################
 ## Tests
 
-.PHONY: jshint
-jshint: stamp-bower
-	$(JSHINT) --config jshintrc $(CHECKSOURCES)
+.PHONY: eslint
+eslint: stamp-npm
+	$(ESLINT) src/
+	$(ESLINT) spec/
 
 .PHONY: check
-check: stamp-bower jshint
-	$(PHANTOMJS) node_modules/phantom-jasmine/lib/run_jasmine_test.coffee tests.html
+check: eslint
+	$(PHANTOMJS) tests/run-jasmine2.js tests.html
+
 
 ########################################################################
 ## Documentation

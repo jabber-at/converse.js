@@ -7,9 +7,57 @@
             "plural_forms": "nplurals=1; plural=0;",
             "lang": "JA"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "保存"
+         ],
+         "Cancel": [
+            null,
+            "キャンセル"
+         ],
+         "Sorry, something went wrong while trying to save your bookmark.": [
+            null,
+            ""
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "クリックしてこの談話室を開く"
+         ],
+         "Show more information on this room": [
+            null,
+            "この談話室についての詳細を見る"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Personal message": [
             null,
             "私信"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
@@ -19,7 +67,15 @@
             null,
             ""
          ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
          "is typing": [
+            null,
+            ""
+         ],
+         "Stopped typing on the other device": [
             null,
             ""
          ],
@@ -43,10 +99,6 @@
             null,
             ""
          ],
-         "Hide the list of occupants": [
-            null,
-            ""
-         ],
          "Insert a smiley": [
             null,
             ""
@@ -58,10 +110,6 @@
          "Contacts": [
             null,
             "相手先"
-         ],
-         "Connecting": [
-            null,
-            "接続中です"
          ],
          "Password:": [
             null,
@@ -94,10 +142,6 @@
          "Custom status": [
             null,
             "独自の在席状況"
-         ],
-         "Save": [
-            null,
-            "保存"
          ],
          "online": [
             null,
@@ -171,13 +215,9 @@
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            "切断中"
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "接続中です"
          ],
          "Authenticating": [
             null,
@@ -195,93 +235,13 @@
             null,
             ""
          ],
-         "Minimize this box": [
+         "Minimize this chat box": [
             null,
             ""
          ],
          "Minimized": [
             null,
             ""
-         ],
-         "Minimize this chat box": [
-            null,
-            ""
-         ],
-         "Message": [
-            null,
-            "メッセージ"
-         ],
-         "Error: could not execute the command": [
-            null,
-            ""
-         ],
-         "Error: the \"": [
-            null,
-            ""
-         ],
-         "Change user's affiliation to admin": [
-            null,
-            ""
-         ],
-         "Change user role to occupant": [
-            null,
-            ""
-         ],
-         "Grant membership to a user": [
-            null,
-            ""
-         ],
-         "Remove user's ability to post messages": [
-            null,
-            ""
-         ],
-         "Change your nickname": [
-            null,
-            ""
-         ],
-         "Grant moderator role to user": [
-            null,
-            ""
-         ],
-         "Revoke user's membership": [
-            null,
-            ""
-         ],
-         "Allow muted user to post messages": [
-            null,
-            ""
-         ],
-         "Cancel": [
-            null,
-            "キャンセル"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "フォームを保存する際にエラーが発生しました。"
-         ],
-         "The nickname you chose is reserved or currently in use, please choose a different one.": [
-            null,
-            ""
-         ],
-         "Please choose your nickname": [
-            null,
-            ""
-         ],
-         "Nickname": [
-            null,
-            "ニックネーム"
-         ],
-         "This chatroom requires a password": [
-            null,
-            "この談話室にはパスワードが必要です"
-         ],
-         "Password: ": [
-            null,
-            "パスワード:"
-         ],
-         "Submit": [
-            null,
-            "送信"
          ],
          "This room is not anonymous": [
             null,
@@ -295,10 +255,6 @@
             null,
             "この談話室はメンバー以外には見えません"
          ],
-         "Non-privacy-related room configuration has changed": [
-            null,
-            "談話室の設定(プライバシーに無関係)が変更されました"
-         ],
          "Room logging is now enabled": [
             null,
             "談話室の記録を取りはじめます"
@@ -306,10 +262,6 @@
          "Room logging is now disabled": [
             null,
             "談話室の記録を止めます"
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "この談話室はただいま非匿名です"
          ],
          "This room is now semi-anonymous": [
             null,
@@ -343,51 +295,167 @@
             null,
             "MUC(グループチャット)のサービスが停止したため、この談話室から削除されました。"
          ],
-         "<strong>%1$s</strong> has been banned": [
+         "Message": [
             null,
-            "<strong>%1$s</strong> を締め出しました"
+            "メッセージ"
          ],
-         "<strong>%1$s</strong> has been kicked out": [
+         "Hide the list of occupants": [
             null,
-            "<strong>%1$s</strong> を蹴り出しました"
+            ""
          ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
+         "Error: the \"": [
             null,
-            "分掌の変更のため、<strong>%1$s</strong> を削除しました"
+            ""
          ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
+         "Error: could not execute the command": [
             null,
-            "メンバーでなくなったため、<strong>%1$s</strong> を削除しました"
+            ""
+         ],
+         "Change user's affiliation to admin": [
+            null,
+            ""
+         ],
+         "Change user role to occupant": [
+            null,
+            ""
+         ],
+         "Grant membership to a user": [
+            null,
+            ""
+         ],
+         "Remove user's ability to post messages": [
+            null,
+            ""
+         ],
+         "Change your nickname": [
+            null,
+            ""
+         ],
+         "Grant moderator role to user": [
+            null,
+            ""
+         ],
+         "Revoke user's membership": [
+            null,
+            ""
+         ],
+         "Set room subject (alias for /subject)": [
+            null,
+            ""
+         ],
+         "Allow muted user to post messages": [
+            null,
+            ""
+         ],
+         "The nickname you chose is reserved or currently in use, please choose a different one.": [
+            null,
+            ""
+         ],
+         "Please choose your nickname": [
+            null,
+            ""
+         ],
+         "Nickname": [
+            null,
+            "ニックネーム"
+         ],
+         "This chatroom requires a password": [
+            null,
+            "この談話室にはパスワードが必要です"
+         ],
+         "Password: ": [
+            null,
+            "パスワード:"
+         ],
+         "Submit": [
+            null,
+            "送信"
+         ],
+         "The reason given is: \"%1$s\".": [
+            null,
+            ""
          ],
          "The reason given is: \"": [
             null,
             ""
          ],
-         "You are not on the member list of this room": [
+         " has left the room. \"": [
             null,
-            "この談話室のメンバー一覧にいません"
+            ""
          ],
-         "No nickname was specified": [
+         " has joined the room. \"": [
             null,
-            "ニックネームがありません"
+            ""
          ],
-         "You are not allowed to create new rooms": [
+         " has joined the room.": [
             null,
-            "新しい談話室を作成する権限がありません"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "ニックネームがこの談話室のポリシーに従っていません"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "この談話室は存在しません"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
             "%1$s が話題を設定しました: %2$s"
          ],
          "Invite": [
+            null,
+            ""
+         ],
+         "Hidden": [
+            null,
+            "非表示"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "発言制限"
+         ],
+         "Non-anonymous": [
+            null,
+            "非匿名"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "公開談話室"
+         ],
+         "Semi-anonymous": [
+            null,
+            "半匿名"
+         ],
+         "Unmoderated": [
+            null,
+            "発言制限なし"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
             null,
             ""
          ],
@@ -423,14 +491,6 @@
             null,
             "%1$s の談話室一覧"
          ],
-         "Click to open this room": [
-            null,
-            "クリックしてこの談話室を開く"
-         ],
-         "Show more information on this room": [
-            null,
-            "この談話室についての詳細を見る"
-         ],
          "Description:": [
             null,
             "説明: "
@@ -447,21 +507,9 @@
             null,
             "認証の要求"
          ],
-         "Hidden": [
-            null,
-            "非表示"
-         ],
          "Requires an invitation": [
             null,
             "招待の要求"
-         ],
-         "Moderated": [
-            null,
-            "発言制限"
-         ],
-         "Non-anonymous": [
-            null,
-            "非匿名"
          ],
          "Open room": [
             null,
@@ -471,21 +519,9 @@
             null,
             "常設談話室"
          ],
-         "Public": [
-            null,
-            "公開談話室"
-         ],
-         "Semi-anonymous": [
-            null,
-            "半匿名"
-         ],
          "Temporary room": [
             null,
             "臨時談話室"
-         ],
-         "Unmoderated": [
-            null,
-            "発言制限なし"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -652,6 +688,10 @@
             ""
          ],
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
+            null,
+            ""
+         ],
+         "Retry": [
             null,
             ""
          ],

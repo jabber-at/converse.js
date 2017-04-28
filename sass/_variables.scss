@@ -1,4 +1,4 @@
-/* 
+/*
     Color scheme helpers:
     https://coolors.co/app/264653-2a9d8f-e9c46a-f4a261-e76f51
     http://paletton.com/#uid=53f0u0knsvIdILAj5Cftgu3uBmZ
@@ -13,8 +13,11 @@ $border-color: #CCC !default;
 $icon-color: #114327 !default;
 $save-button-color: #436F64 !default;
 $chat-textarea-height: 70px !default;
+$send-button-height: 27px !default;
+$send-button-margin: 3px !default;
 $message-them-color: #1A9707 !default;
 $roster-height: 194px !default;
+$roster-item-height: 60px !default;
 
 $chat-head-color: #F4A261 !default;
 $chat-head-text-color: white !default;
@@ -39,8 +42,8 @@ $toolbar-color: #FFF5EE !default;
 
 $moderator-color: #D24E2B !default;
 $online-color: #1A9707 !default;
-
 $error-color: #D24E2B !default;
+$subdued-color: #A8ABA1 !default;
 
 $chatbox-border-radius: 4px !default;
 $bottom-gutter-height: 35px !default;
@@ -49,9 +52,15 @@ $chatbox-hover-height: 6px !default;
 $mobile_landscape_height: 450px !default;
 $mobile_portrait_length: 480px !default;
 
+$font-size-tiny: 10px !default;
+$font-size-small: 12px !default;
 $font-size: 14px !default;
+$font-size-large: 16px !default;
 $legend-font-size: 16px !default;
 
+$line-height:  16px !default;
+
+$controlbox-width: 200px !default;
 $chat-width: 200px !default;
 $chat-height: 450px !default;
 $chat-gutter: 0.5em !default;
@@ -61,8 +70,7 @@ $mobile-chat-width: 100% !default;
 $mobile-chat-height: 400px !default;
 $small-mobile-chat-height: 300px !default;
 
-/* $font-path: "../fonticons/fonts/" !default; */
-$font-path: "https://cdn.conversejs.org/fonticons/fonts/" !default;
+$font-path: "../fonticons/fonts/" !default;
 
 $chatroom-width: 300px !default;
 $chatroom-head-color: #E76F51 !default;
@@ -75,4 +83,4 @@ $box-close-button-padding-top: 4px !default;
 $box-close-button-padding-bottom: 4px !default;
 $box-close-button-padding-left: 4px !default;
 $box-close-button-padding-right: 4px !default;
-$box-close-font-size: 9px !default;
+$box-close-font-size: 12px !default;

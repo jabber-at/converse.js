@@ -3,21 +3,21 @@
     <div class="dragresize dragresize-topleft"></div>
     <div class="dragresize dragresize-left"></div>
     <div class="chat-head chat-head-chatbox">
-        <a class="chatbox-btn close-chatbox-button icon-close" title="{{info_close}}"></a>
+        <a class="chatbox-btn close-chatbox-button icon-close" title="{{{info_close}}}"></a>
         <div class="chat-title">
             {[ if (url) { ]}
-                <a href="{{url}}" target="_blank" rel="noopener" class="user">
+                <a href="{{{url}}}" target="_blank" rel="noopener" class="user">
             {[ } ]}
-                    {{ title }}
+                    {{{ title }}}
             {[ if (url) { ]}
                 </a>
             {[ } ]}
+            <p class="user-custom-message"><p/>
         </div>
-        <p class="user-custom-message"><p/>
     </div>
     <div class="chat-body">
-        <div class="chat-content"></div>
-        <div class="new-msgs-indicator hidden">▼ {{ unread_msgs }} ▼</div>
+        <div class="chat-content {[ if (show_send_button) { ]}chat-content-sendbutton{[ } ]}"></div>
+        <div class="new-msgs-indicator hidden">▼ {{{ unread_msgs }}} ▼</div>
         {[ if (show_textarea) { ]}
         <form class="sendXMPPMessage" action="" method="post">
             {[ if (show_toolbar) { ]}
@@ -25,8 +25,12 @@
             {[ } ]}
         <textarea
             type="text"
-            class="chat-textarea"
-            placeholder="{{label_personal_message}}"/>
+            class="chat-textarea {[ if (show_send_button) { ]}chat-textarea-send-button{[ } ]}"
+            placeholder="{{{label_personal_message}}}"/>
+
+        {[ if (show_send_button) { ]}
+            <button type="submit" class="pure-button send-button">{{{ label_send }}}</button>
+        {[ } ]}
         </form>
         {[ } ]}
     </div>

@@ -1,15 +1,13 @@
 // Converse.js (A browser based XMPP chat client)
 // http://conversejs.org
 //
-// Copyright (c) 2012-2016, Jan-Carel Brand <jc@opkode.com>
+// Copyright (c) 2012-2017, Jan-Carel Brand <jc@opkode.com>
 // Licensed under the Mozilla Public License (MPLv2)
 //
-/*global define, Backbone */
+/*global define */
 
 (function (root, factory) {
-    define("converse-controlbox", [
-            "converse-core",
-            "converse-api",
+    define(["converse-core",
             "tpl!add_contact_dropdown",
             "tpl!add_contact_form",
             "tpl!change_status_message",
@@ -28,7 +26,6 @@
     ], factory);
 }(this, function (
             converse,
-            converse_api,
             tpl_add_contact_dropdown,
             tpl_add_contact_form,
             tpl_change_status_message,
@@ -44,31 +41,19 @@
             tpl_status_option
         ) {
     "use strict";
-    converse.templates.add_contact_dropdown = tpl_add_contact_dropdown;
-    converse.templates.add_contact_form = tpl_add_contact_form;
-    converse.templates.change_status_message = tpl_change_status_message;
-    converse.templates.chat_status = tpl_chat_status;
-    converse.templates.choose_status = tpl_choose_status;
-    converse.templates.contacts_panel = tpl_contacts_panel;
-    converse.templates.contacts_tab = tpl_contacts_tab;
-    converse.templates.controlbox = tpl_controlbox;
-    converse.templates.controlbox_toggle = tpl_controlbox_toggle;
-    converse.templates.login_panel = tpl_login_panel;
-    converse.templates.login_tab = tpl_login_tab;
-    converse.templates.search_contact = tpl_search_contact;
-    converse.templates.status_option = tpl_status_option;
 
+    var USERS_PANEL_ID = 'users';
     // Strophe methods for building stanzas
-    var Strophe = converse_api.env.Strophe,
-        utils = converse_api.env.utils;
+    var Strophe = converse.env.Strophe,
+        Backbone = converse.env.Backbone,
+        utils = converse.env.utils;
     // Other necessary globals
-    var $ = converse_api.env.jQuery,
-        _ = converse_api.env._,
-        __ = utils.__.bind(converse),
-        moment = converse_api.env.moment;
+    var $ = converse.env.jQuery,
+        _ = converse.env._,
+        moment = converse.env.moment;
 
 
-    converse_api.plugins.add('converse-controlbox', {
+    converse.plugins.add('converse-controlbox', {
 
         overrides: {
             // Overrides mentioned here will be picked up by converse.js's
@@ -89,45 +74,23 @@
                 }
             },
 
-            onDisconnected: function () {
-                var result = this.__super__.onDisconnected.apply(this, arguments);
-                // Set connected to `false`, so that if we reconnect,
-                // "onConnected" will be called, to fetch the roster again and
-                // to send out a presence stanza.
-                var view = converse.chatboxviews.get('controlbox');
-                view.model.set({connected:false});
-                // If we're not going to reconnect, then render the login
-                // panel.
-                if (result === 'disconnected') {
-                    view.$('#controlbox-tabs').empty();
-                    view.renderLoginPanel();
-                }
-                return result;
-            },
-
-            afterReconnected: function () {
-                this.__super__.afterReconnected.apply(this, arguments);
-                var view = converse.chatboxviews.get('controlbox');
-                if (view.model.get('connected')) {
-                    converse.chatboxviews.get("controlbox").onConnected();
-                } else {
-                    view.model.set({connected:true});
-                }
-            },
-
             _tearDown: function () {
                 this.__super__._tearDown.apply(this, arguments);
                 if (this.rosterview) {
                     this.rosterview.unregisterHandlers();
                     // Removes roster groups
                     this.rosterview.model.off().reset();
-                    this.rosterview.undelegateEvents().remove();
+                    this.rosterview.each(function (groupview) {
+                        groupview.removeAll();
+                        groupview.remove();
+                    });
+                    this.rosterview.removeAll().remove();
                 }
             },
 
             clearSession: function () {
                 this.__super__.clearSession.apply(this, arguments);
-                if (typeof this.connection !== 'undefined' && this.connection.connected) {
+                if (_.isUndefined(this.connection) && this.connection.connected) {
                     this.chatboxes.get('controlbox').save({'connected': false});
                 }
             },
@@ -139,12 +102,10 @@
                 },
 
                 onChatBoxesFetched: function (collection, resp) {
+                    var _converse = this.__super__._converse;
                     this.__super__.onChatBoxesFetched.apply(this, arguments);
-                    if (!_.include(_.pluck(resp, 'id'), 'controlbox')) {
-                        this.add({
-                            id: 'controlbox',
-                            box_id: 'controlbox'
-                        });
+                    if (!_.includes(_.map(collection, 'id'), 'controlbox')) {
+                        _converse.addControlBox();
                     }
                     this.get('controlbox').save({connected:true});
                 },
@@ -152,6 +113,7 @@
 
             ChatBoxViews: {
                 onChatBoxAdded: function (item) {
+                    var _converse = this.__super__._converse;
                     if (item.get('box_id') === 'controlbox') {
                         var view = this.get(item.get('id'));
                         if (view) {
@@ -159,7 +121,7 @@
                             view.initialize();
                             return view;
                         } else {
-                            view = new converse.ControlBoxView({model: item});
+                            view = new _converse.ControlBoxView({model: item});
                             return this.add(item.get('id'), view);
                         }
                     } else {
@@ -168,22 +130,26 @@
                 },
 
                 closeAllChatBoxes: function () {
+                    var _converse = this.__super__._converse;
                     this.each(function (view) {
-                        if (view.model.get('id') !== 'controlbox') {
-                            view.close();
+                        if (view.model.get('id') === 'controlbox' &&
+                                (_converse.disconnection_cause !== _converse.LOGOUT || _converse.show_controlbox_by_default)) {
+                            return;
                         }
+                        view.close();
                     });
                     return this;
                 },
 
                 getChatBoxWidth: function (view) {
+                    var _converse = this.__super__._converse;
                     var controlbox = this.get('controlbox');
                     if (view.model.get('id') === 'controlbox') {
                         /* We return the width of the controlbox or its toggle,
                          * depending on which is visible.
                          */
                         if (!controlbox || !controlbox.$el.is(':visible')) {
-                            return converse.controlboxtoggle.$el.outerWidth(true);
+                            return _converse.controlboxtoggle.$el.outerWidth(true);
                         } else {
                             return controlbox.$el.outerWidth(true);
                         }
@@ -210,7 +176,8 @@
 
             ChatBoxView: {
                 insertIntoDOM: function () {
-                    this.$el.insertAfter(converse.chatboxviews.get("controlbox").$el);
+                    var _converse = this.__super__._converse;
+                    this.$el.insertAfter(_converse.chatboxviews.get("controlbox").$el);
                     return this;
                 }
             }
@@ -220,7 +187,9 @@
             /* The initialize function gets called as soon as the plugin is
              * loaded by converse.js's plugin machinery.
              */
-            var converse = this.converse;
+            var _converse = this._converse,
+                __ = _converse.__;
+
             this.updateSettings({
                 allow_logout: true,
                 default_domain: undefined,
@@ -232,15 +201,15 @@
 
             var LABEL_CONTACTS = __('Contacts');
 
-            converse.addControlBox = function () {
-                return converse.chatboxes.add({
+            _converse.addControlBox = function () {
+                return _converse.chatboxes.add({
                     id: 'controlbox',
                     box_id: 'controlbox',
-                    closed: !converse.show_controlbox_by_default
+                    closed: !_converse.show_controlbox_by_default
                 });
             };
 
-            converse.ControlBoxView = converse.ChatBoxView.extend({
+            _converse.ControlBoxView = _converse.ChatBoxView.extend({
                 tagName: 'div',
                 className: 'chatbox',
                 id: 'controlbox',
@@ -250,7 +219,7 @@
                 },
 
                 initialize: function () {
-                    this.$el.insertAfter(converse.controlboxtoggle.$el);
+                    this.$el.insertAfter(_converse.controlboxtoggle.$el);
                     this.model.on('change:connected', this.onConnected, this);
                     this.model.on('destroy', this.hide, this);
                     this.model.on('hide', this.hide, this);
@@ -260,23 +229,25 @@
                     if (this.model.get('connected')) {
                         this.insertRoster();
                     }
-                    if (typeof this.model.get('closed')==='undefined') {
-                        this.model.set('closed', !converse.show_controlbox_by_default);
+                },
+
+                render: function () {
+                    if (this.model.get('connected')) {
+                        if (_.isUndefined(this.model.get('closed'))) {
+                            this.model.set('closed', !_converse.show_controlbox_by_default);
+                        }
                     }
                     if (!this.model.get('closed')) {
                         this.show();
                     } else {
                         this.hide();
                     }
-                },
-
-                render: function () {
-                    this.$el.html(converse.templates.controlbox(
+                    this.$el.html(tpl_controlbox(
                         _.extend(this.model.toJSON(), {
-                            sticky_controlbox: converse.sticky_controlbox
+                            sticky_controlbox: _converse.sticky_controlbox
                         }))
                     );
-                    if (!converse.connection.connected || !converse.connection.authenticated || converse.connection.disconnecting) {
+                    if (!_converse.connection.connected || !_converse.connection.authenticated || _converse.connection.disconnecting) {
                         this.renderLoginPanel();
                     } else if (!this.contactspanel || !this.contactspanel.$el.is(':visible')) {
                         this.renderContactsPanel();
@@ -284,59 +255,51 @@
                     return this;
                 },
 
-                giveFeedback: function (message, klass) {
-                    var $el = this.$('.conn-feedback');
-                    $el.addClass('conn-feedback').text(message);
-                    if (klass) {
-                        $el.addClass(klass);
-                    }
-                },
-
                 onConnected: function () {
                     if (this.model.get('connected')) {
                         this.render().insertRoster();
+                        this.model.save();
                     }
                 },
 
                 insertRoster: function () {
                     /* Place the rosterview inside the "Contacts" panel.
                      */
-                    this.contactspanel.$el.append(converse.rosterview.$el);
+                    this.contactspanel.$el.append(_converse.rosterview.$el);
                     return this;
                 },
 
                 renderLoginPanel: function () {
-                    var $feedback = this.$('.conn-feedback'); // we want to still show any existing feedback.
-                    this.loginpanel = new converse.LoginPanel({
+                    this.loginpanel = new _converse.LoginPanel({
                         '$parent': this.$el.find('.controlbox-panes'),
                         'model': this
                     });
                     this.loginpanel.render();
-                    if ($feedback.length && $feedback.text() !== __('Connecting')) {
-                        this.$('.conn-feedback').replaceWith($feedback);
-                    }
                     return this;
                 },
 
                 renderContactsPanel: function () {
-                    this.contactspanel = new converse.ContactsPanel({
+                    if (_.isUndefined(this.model.get('active-panel'))) {
+                        this.model.save({'active-panel': USERS_PANEL_ID});
+                    }
+                    this.contactspanel = new _converse.ContactsPanel({
                         '$parent': this.$el.find('.controlbox-panes')
                     });
                     this.contactspanel.render();
-                    converse.xmppstatusview = new converse.XMPPStatusView({
-                        'model': converse.xmppstatus
+                    _converse.xmppstatusview = new _converse.XMPPStatusView({
+                        'model': _converse.xmppstatus
                     });
-                    converse.xmppstatusview.render();
+                    _converse.xmppstatusview.render();
                 },
 
                 close: function (ev) {
                     if (ev && ev.preventDefault) { ev.preventDefault(); }
-                    if (converse.connection.connected) {
+                    if (_converse.connection.connected && !_converse.connection.disconnecting) {
                         this.model.save({'closed': true});
                     } else {
                         this.model.trigger('hide');
                     }
-                    converse.emit('controlBoxClosed', this);
+                    _converse.emit('controlBoxClosed', this);
                     return this;
                 },
 
@@ -349,28 +312,28 @@
                 },
 
                 hide: function (callback) {
-                    this.$el.hide('fast', function () {
-                        utils.refreshWebkit();
-                        converse.emit('chatBoxClosed', this);
-                        converse.controlboxtoggle.show(function () {
-                            if (typeof callback === "function") {
-                                callback();
-                            }
-                        });
-                    });
+                    this.$el.addClass('hidden');
+                    utils.refreshWebkit();
+                    _converse.emit('chatBoxClosed', this);
+                    if (!_converse.connection.connected) {
+                        _converse.controlboxtoggle.render();
+                    }
+                    _converse.controlboxtoggle.show(callback);
                     return this;
                 },
 
                 onControlBoxToggleHidden: function () {
-                    this.$el.show('fast', function () {
-                        converse.controlboxtoggle.updateOnlineCount();
+                    var that = this;
+                    utils.fadeIn(this.el, function () {
+                        _converse.controlboxtoggle.updateOnlineCount();
                         utils.refreshWebkit();
-                        converse.emit('controlBoxOpened', this);
-                    }.bind(this));
+                        that.model.set('closed', false);
+                        _converse.emit('controlBoxOpened', that);
+                    });
                 },
 
                 show: function () {
-                    converse.controlboxtoggle.hide(
+                    _converse.controlboxtoggle.hide(
                         this.onControlBoxToggleHidden.bind(this)
                     );
                     return this;
@@ -382,21 +345,28 @@
                     var $tab = $(ev.target),
                         $sibling = $tab.parent().siblings('li').children('a'),
                         $tab_panel = $($tab.attr('href'));
-                    $($sibling.attr('href')).hide();
+                    $($sibling.attr('href')).addClass('hidden');
                     $sibling.removeClass('current');
                     $tab.addClass('current');
-                    $tab_panel.show();
+                    $tab_panel.removeClass('hidden');
+                    if (!_.isUndefined(_converse.chatboxes.browserStorage)) {
+                        this.model.save({'active-panel': $tab.data('id')});
+                    }
                     return this;
                 },
 
-                showHelpMessages: function (msgs) {
-                    // Override showHelpMessages in ChatBoxView, for now do nothing.
+                showHelpMessages: function () {
+                    /* Override showHelpMessages in ChatBoxView, for now do nothing.
+                     *
+                     * Parameters:
+                     *  (Array) msgs: Array of messages
+                     */
                     return;
                 }
             });
 
 
-            converse.LoginPanel = Backbone.View.extend({
+            _converse.LoginPanel = Backbone.View.extend({
                 tagName: 'div',
                 id: "login-dialog",
                 className: 'controlbox-pane',
@@ -406,18 +376,18 @@
 
                 initialize: function (cfg) {
                     cfg.$parent.html(this.$el.html(
-                        converse.templates.login_panel({
-                            'ANONYMOUS': converse.ANONYMOUS,
-                            'EXTERNAL': converse.EXTERNAL,
-                            'LOGIN': converse.LOGIN,
-                            'PREBIND': converse.PREBIND,
-                            'auto_login': converse.auto_login,
-                            'authentication': converse.authentication,
+                        tpl_login_panel({
+                            'ANONYMOUS': _converse.ANONYMOUS,
+                            'EXTERNAL': _converse.EXTERNAL,
+                            'LOGIN': _converse.LOGIN,
+                            'PREBIND': _converse.PREBIND,
+                            'auto_login': _converse.auto_login,
+                            'authentication': _converse.authentication,
                             'label_username': __('XMPP Username:'),
                             'label_password': __('Password:'),
                             'label_anon_login': __('Click here to log in anonymously'),
                             'label_login': __('Log In'),
-                            'placeholder_username': (converse.locked_domain || converse.default_domain) && __('Username') || __('user@server'),
+                            'placeholder_username': (_converse.locked_domain || _converse.default_domain) && __('Username') || __('user@server'),
                             'placeholder_password': __('password')
                         })
                     ));
@@ -425,7 +395,7 @@
                 },
 
                 render: function () {
-                    this.$tabs.append(converse.templates.login_tab({label_sign_in: __('Sign in')}));
+                    this.$tabs.append(tpl_login_tab({label_sign_in: __('Sign in')}));
                     this.$el.find('input#jid').focus();
                     if (!this.$el.is(':visible')) {
                         this.$el.show();
@@ -436,8 +406,8 @@
                 authenticate: function (ev) {
                     if (ev && ev.preventDefault) { ev.preventDefault(); }
                     var $form = $(ev.target);
-                    if (converse.authentication === converse.ANONYMOUS) {
-                        this.connect($form, converse.jid, null);
+                    if (_converse.authentication === _converse.ANONYMOUS) {
+                        this.connect($form, _converse.jid, null);
                         return;
                     }
                     var $jid_input = $form.find('input[name=jid]'),
@@ -450,15 +420,15 @@
                         errors = true;
                         $jid_input.addClass('error');
                     }
-                    if (!password && converse.authentication !== converse.EXTERNAL)  {
+                    if (!password && _converse.authentication !== _converse.EXTERNAL)  {
                         errors = true;
                         $pw_input.addClass('error');
                     }
                     if (errors) { return; }
-                    if (converse.locked_domain) {
-                        jid = Strophe.escapeNode(jid) + '@' + converse.locked_domain;
-                    } else if (converse.default_domain && jid.indexOf('@') === -1) {
-                        jid = jid + '@' + converse.default_domain;
+                    if (_converse.locked_domain) {
+                        jid = Strophe.escapeNode(jid) + '@' + _converse.locked_domain;
+                    } else if (_converse.default_domain && !_.includes(jid, '@')) {
+                        jid = jid + '@' + _converse.default_domain;
                     }
                     this.connect($form, jid, password);
                     return false;
@@ -472,12 +442,13 @@
                     if (jid) {
                         resource = Strophe.getResourceFromJid(jid);
                         if (!resource) {
-                            jid = jid.toLowerCase() + converse.generateResource();
+                            jid = jid.toLowerCase() + _converse.generateResource();
                         } else {
                             jid = Strophe.getBareJidFromJid(jid).toLowerCase()+'/'+resource;
                         }
                     }
-                    converse.connection.connect(jid, password, converse.onConnectStatusChanged);
+                    _converse.connection.reset();
+                    _converse.connection.connect(jid, password, _converse.onConnectStatusChanged);
                 },
 
                 remove: function () {
@@ -487,7 +458,7 @@
             });
 
 
-            converse.XMPPStatusView = Backbone.View.extend({
+            _converse.XMPPStatusView = Backbone.View.extend({
                 el: "span#xmpp-status-holder",
 
                 events: {
@@ -510,9 +481,9 @@
                         options = $('option', $select),
                         $options_target,
                         options_list = [];
-                    this.$el.html(converse.templates.choose_status());
+                    this.$el.html(tpl_choose_status());
                     this.$el.find('#fancy-xmpp-status-select')
-                            .html(converse.templates.chat_status({
+                            .html(tpl_chat_status({
                                 'status_message': this.model.get('status_message') || __("I am %1$s", this.getPrettyStatus(chat_status)),
                                 'chat_status': chat_status,
                                 'desc_custom_status': __('Click here to write a custom status message'),
@@ -520,7 +491,7 @@
                                 }));
                     // iterate through all the <option> elements and add option values
                     options.each(function () {
-                        options_list.push(converse.templates.status_option({
+                        options_list.push(tpl_status_option({
                             'value': $(this).val(),
                             'text': this.text
                         }));
@@ -538,8 +509,8 @@
 
                 renderStatusChangeForm: function (ev) {
                     ev.preventDefault();
-                    var status_message = this.model.get('status') || 'offline';
-                    var input = converse.templates.change_status_message({
+                    var status_message = _converse.xmppstatus.get('status_message') || '';
+                    var input = tpl_change_status_message({
                         'status_message': status_message,
                         'label_custom_status': __('Custom status'),
                         'label_save': __('Save')
@@ -561,7 +532,7 @@
                         value = $el.attr('data-value');
                     if (value === 'logout') {
                         this.$el.find(".dropdown dd ul").hide();
-                        converse.logOut();
+                        _converse.logOut();
                     } else {
                         this.model.setStatus(value);
                         this.$el.find(".dropdown dd ul").hide();
@@ -590,7 +561,7 @@
                     // Example, I am online
                     var status_message = model.get('status_message') || __("I am %1$s", this.getPrettyStatus(stat));
                     this.$el.find('#fancy-xmpp-status-select').removeClass('no-border').html(
-                        converse.templates.chat_status({
+                        tpl_chat_status({
                             'chat_status': stat,
                             'status_message': status_message,
                             'desc_custom_status': __('Click here to write a custom status message'),
@@ -600,7 +571,7 @@
             });
 
 
-            converse.ContactsPanel = Backbone.View.extend({
+            _converse.ContactsPanel = Backbone.View.extend({
                 tagName: 'div',
                 className: 'controlbox-pane',
                 id: 'users',
@@ -618,35 +589,42 @@
 
                 render: function () {
                     var markup;
-                    var widgets = converse.templates.contacts_panel({
+                    var widgets = tpl_contacts_panel({
                         label_online: __('Online'),
                         label_busy: __('Busy'),
                         label_away: __('Away'),
                         label_offline: __('Offline'),
                         label_logout: __('Log out'),
-                        include_offline_state: converse.include_offline_state,
-                        allow_logout: converse.allow_logout
+                        include_offline_state: _converse.include_offline_state,
+                        allow_logout: _converse.allow_logout
                     });
-                    this.$tabs.append(converse.templates.contacts_tab({label_contacts: LABEL_CONTACTS}));
-                    if (converse.xhr_user_search) {
-                        markup = converse.templates.search_contact({
+                    var controlbox = _converse.chatboxes.get('controlbox');
+                    this.$tabs.append(tpl_contacts_tab({
+                        'label_contacts': LABEL_CONTACTS,
+                        'is_current': controlbox.get('active-panel') === USERS_PANEL_ID
+                    }));
+                    if (_converse.xhr_user_search) {
+                        markup = tpl_search_contact({
                             label_contact_name: __('Contact name'),
                             label_search: __('Search')
                         });
                     } else {
-                        markup = converse.templates.add_contact_form({
+                        markup = tpl_add_contact_form({
                             label_contact_username: __('e.g. user@example.org'),
                             label_add: __('Add')
                         });
                     }
-                    if (converse.allow_contact_requests) {
-                        widgets += converse.templates.add_contact_dropdown({
+                    if (_converse.allow_contact_requests) {
+                        widgets += tpl_add_contact_dropdown({
                             label_click_to_chat: __('Click to add new chat contacts'),
                             label_add_contact: __('Add a contact')
                         });
                     }
                     this.$el.html(widgets);
                     this.$el.find('.search-xmpp ul').append(markup);
+                    if (controlbox.get('active-panel') !== USERS_PANEL_ID) {
+                        this.$el.addClass('hidden');
+                    }
                     return this;
                 },
 
@@ -661,7 +639,7 @@
 
                 searchContacts: function (ev) {
                     ev.preventDefault();
-                    $.getJSON(converse.xhr_user_search_url+ "?q=" + $(ev.target).find('input.username').val(), function (data) {
+                    $.getJSON(_converse.xhr_user_search_url+ "?q=" + $(ev.target).find('input.username').val(), function (data) {
                         var $ul= $('.search-xmpp ul');
                         $ul.find('li.found-user').remove();
                         $ul.find('li.chat-info').remove();
@@ -690,7 +668,7 @@
                         $input.addClass('error');
                         return;
                     }
-                    converse.roster.addAndSubscribe(jid);
+                    _converse.roster.addAndSubscribe(jid);
                     $('.search-xmpp').hide();
                 },
 
@@ -699,16 +677,16 @@
                     var $target = $(ev.target),
                         jid = $target.attr('data-recipient'),
                         name = $target.text();
-                    converse.roster.addAndSubscribe(jid, name);
+                    _converse.roster.addAndSubscribe(jid, name);
                     $target.parent().remove();
                     $('.search-xmpp').hide();
                 }
             });
 
 
-            converse.ControlBoxToggle = Backbone.View.extend({
+            _converse.ControlBoxToggle = Backbone.View.extend({
                 tagName: 'a',
-                className: 'toggle-controlbox',
+                className: 'toggle-controlbox hidden',
                 id: 'toggle-controlbox',
                 events: {
                     'click': 'onClick'
@@ -718,55 +696,55 @@
                 },
 
                 initialize: function () {
-                    this.render();
+                    _converse.chatboxviews.$el.prepend(this.render());
                     this.updateOnlineCount();
-                    converse.on('initialized', function () {
-                        converse.roster.on("add", this.updateOnlineCount, this);
-                        converse.roster.on('change', this.updateOnlineCount, this);
-                        converse.roster.on("destroy", this.updateOnlineCount, this);
-                        converse.roster.on("remove", this.updateOnlineCount, this);
-                    }.bind(this));
+                    var that = this;
+                    _converse.on('initialized', function () {
+                        _converse.roster.on("add", that.updateOnlineCount, that);
+                        _converse.roster.on('change', that.updateOnlineCount, that);
+                        _converse.roster.on("destroy", that.updateOnlineCount, that);
+                        _converse.roster.on("remove", that.updateOnlineCount, that);
+                    });
                 },
 
                 render: function () {
-                    $('#conversejs').prepend(this.$el.html(
-                        converse.templates.controlbox_toggle({
-                            'label_toggle': __('Toggle chat')
-                        })
-                    ));
                     // We let the render method of ControlBoxView decide whether
                     // the ControlBox or the Toggle must be shown. This prevents
                     // artifacts (i.e. on page load the toggle is shown only to then
                     // seconds later be hidden in favor of the control box).
-                    this.$el.hide();
-                    return this;
+                    return this.$el.html(
+                        tpl_controlbox_toggle({
+                            'label_toggle': __('Toggle chat')
+                        })
+                    );
                 },
 
                 updateOnlineCount: _.debounce(function () {
-                    if (typeof converse.roster === 'undefined') {
+                    if (_.isUndefined(_converse.roster)) {
                         return;
                     }
                     var $count = this.$('#online-count');
-                    $count.text('('+converse.roster.getNumOnlineContacts()+')');
+                    $count.text('('+_converse.roster.getNumOnlineContacts()+')');
                     if (!$count.is(':visible')) {
                         $count.show();
                     }
-                }, converse.animate ? 100 : 0),
+                }, _converse.animate ? 100 : 0),
 
                 hide: function (callback) {
-                    this.$el.fadeOut('fast', callback);
+                    this.el.classList.add('hidden');
+                    callback();
                 },
 
                 show: function (callback) {
-                    this.$el.show('fast', callback);
+                    utils.fadeIn(this.el, callback);
                 },
 
                 showControlBox: function () {
-                    var controlbox = converse.chatboxes.get('controlbox');
+                    var controlbox = _converse.chatboxes.get('controlbox');
                     if (!controlbox) {
-                        controlbox = converse.addControlBox();
+                        controlbox = _converse.addControlBox();
                     }
-                    if (converse.connection.connected) {
+                    if (_converse.connection.connected) {
                         controlbox.save({closed: false});
                     } else {
                         controlbox.trigger('show');
@@ -776,8 +754,8 @@
                 onClick: function (e) {
                     e.preventDefault();
                     if ($("div#controlbox").is(':visible')) {
-                        var controlbox = converse.chatboxes.get('controlbox');
-                        if (converse.connection.connected) {
+                        var controlbox = _converse.chatboxes.get('controlbox');
+                        if (_converse.connection.connected) {
                             controlbox.save({closed: true});
                         } else {
                             controlbox.trigger('hide');
@@ -787,6 +765,31 @@
                     }
                 }
             });
+
+            var disconnect =  function () {
+                /* Upon disconnection, set connected to `false`, so that if
+                 * we reconnect,
+                 * "onConnected" will be called, to fetch the roster again and
+                 * to send out a presence stanza.
+                 */
+                var view = _converse.chatboxviews.get('controlbox');
+                view.model.set({connected:false});
+                view.$('#controlbox-tabs').empty();
+                view.renderLoginPanel();
+            };
+            _converse.on('disconnected', disconnect);
+
+            var afterReconnected = function () {
+                /* After reconnection makes sure the controlbox's is aware.
+                 */
+                var view = _converse.chatboxviews.get('controlbox');
+                if (view.model.get('connected')) {
+                    _converse.chatboxviews.get("controlbox").onConnected();
+                } else {
+                    view.model.set({connected:true});
+                }
+            };
+            _converse.on('reconnected', afterReconnected);
         }
     });
 }));

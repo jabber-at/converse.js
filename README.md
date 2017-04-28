@@ -1,6 +1,8 @@
 # converse.js
 
 [![Travis](https://api.travis-ci.org/jcbrand/converse.js.png?branch=master)](https://travis-ci.org/jcbrand/converse.js)
+[![Bountysource bounties](https://img.shields.io/bountysource/team/converse.js/activity.svg?maxAge=2592000)](https://www.bountysource.com/teams/converse.js/issues?tracker_ids=194169)
+[![Translation status](https://hosted.weblate.org/widgets/conversejs/-/svg-badge.svg)](https://hosted.weblate.org/engage/conversejs/?utm_source=widget)
 
 [Converse.js](https://conversejs.org) is a web based [XMPP/Jabber](http://xmpp.org) instant messaging client.
 
@@ -23,13 +25,13 @@ which shows you how to use the CDN (content delivery network) to quickly get a d
 ## Features
 
 -   Single-user chat
+-   Contacts and groups
 -   Multi-user chat rooms [XEP 45](http://xmpp.org/extensions/xep-0045.html)
 -   Direct invitations to chat rooms [XEP 249](http://xmpp.org/extensions/xep-0249.html)
 -   vCard support [XEP 54](http://xmpp.org/extensions/xep-0054.html)
 -   Service discovery [XEP 30](http://xmpp.org/extensions/xep-0030.html)
 -   In-band registration [XEP 77](http://xmpp.org/extensions/xep-0077.html)
--   Contact rosters and groups
--   Contact subscriptions
+-   Chat room bookmarks [XEP 48](http://xmpp.org/extensions/xep-0048.html)
 -   Roster item exchange [XEP 144](http://xmpp.org/extensions/tmp/xep-0144-1.1.html)
 -   Chat statuses (online, busy, away, offline)
 -   Custom status messages
@@ -48,7 +50,7 @@ which shows you how to use the CDN (content delivery network) to quickly get a d
 -   **[Ruby on Rails](http://rubyonrails.org)**: [conversejs-rails](https://github.com/mikemarsian/conversejs-rails)
 -   **[Django](http://www.djangoproject.com)**: [django-conversejs](https://pypi.python.org/pypi/django-conversejs) or [django-xmpp](https://github.com/fpytloun/django-xmpp)
 -   **[Plone](http://plone.com)**: [collective.xmpp.chat](http://github.com/collective/collective.xmpp.chat)
--   **[Roundcube](http://roundcube.net)**: [roundcube-converse.js-xmpp-plugin](https://github.com/priyadi/roundcube-converse.js-xmpp-plugin)
+-   **[Roundcube](http://roundcube.net)**: [roundcube-converse.js-xmpp-plugin](https://github.com/devurandom/roundcube-converse.js-xmpp-plugin)
 -   **[Wordpress](http://wordpress.org)**: [ConverseJS](http://wordpress.org/plugins/conversejs)
 -   **[Patternslib](http://patternslib.com)**: [patterns.converse](https://github.com/jcbrand/patterns.converse)
 -   **[Alfresco](http://www.alfresco.com)**: [alfresco-js-chat-share](https://github.com/keensoft/alfresco-js-chat-share)
@@ -67,7 +69,7 @@ which shows you how to use the CDN (content delivery network) to quickly get a d
 
 ## Tests
 
-We use behavior-driven tests written with [jasmine.js](http://pivotal.github.io/jasmine).
+We use behavior-driven tests written with [jasmine.js](https://jasmine.github.io/).
 
 Open [tests.html](https://github.com/jcbrand/converse.js/blob/master/tests.html) in your browser, and the tests will run automatically.
 

@@ -1,4 +1,5 @@
 *~
+.sw?
 *.mo
 *.kpf
 .*.sw?
@@ -10,6 +11,8 @@
 .pydevproject
 analytics.js
 .idea
+eggs
+.Python
 
 dev-jc.html
 
@@ -31,9 +34,6 @@ stamp-bundler
 docs/html
 docs/doctrees
 
-# Bower
-components
-
 # Node.js
 node_modules
 
@@ -53,11 +53,13 @@ dist/converse-no-locales-no-otr.min.js
 dist/converse-no-otr.js
 dist/converse-no-otr.min.js
 dist/converse.min.js
-dist/converse.nojquery.js
-dist/converse.nojquery.min.js
+dist/converse-no-jquery.js
+dist/converse-no-jquery.min.js
 dist/converse-mobile.min.js
+dist/converse-muc-embedded.js
+dist/converse-muc-embedded.min.js
 
-css/converse.css.map
-css/converse.min.css
-
+css/*.map
+css/*.min.css
 .sv?
+/vendor/

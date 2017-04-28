@@ -48,10 +48,8 @@ Table of Contents
    setup
    configuration
    development
-   style_guide 
+   security
    theming
    translations
    troubleshooting
    documentation
-   builds
-

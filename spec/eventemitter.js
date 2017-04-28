@@ -1,43 +1,34 @@
-/*global converse */
 (function (root, factory) {
-    define([
-        "jquery",
-        "mock",
-        "test_utils"
-        ], function ($, mock, test_utils) {
-            return factory($, mock, test_utils);
-        }
-    );
-} (this, function ($, mock, test_utils) {
-    return describe("The Converse Event Emitter", $.proxy(function(mock, test_utils) {
-        window.localStorage.clear();
-        window.sessionStorage.clear();
+    define(["mock", "converse-core", "test-utils"], factory);
+} (this, function (mock, converse, test_utils) {
 
-        it("allows you to subscribe to emitted events", function () {
+    return describe("The _converse Event Emitter", function() {
+
+        it("allows you to subscribe to emitted events", mock.initConverse(function (_converse) {
             this.callback = function () {};
             spyOn(this, 'callback');
-            converse.on('initialized', this.callback);
-            converse.emit('initialized');
+            _converse.on('connected', this.callback);
+            _converse.emit('connected');
             expect(this.callback).toHaveBeenCalled();
-            converse.emit('initialized');
-            expect(this.callback.callCount, 2);
-            converse.emit('initialized');
-            expect(this.callback.callCount, 3);
-        });
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 2);
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 3);
+        }));
 
-        it("allows you to listen once for an emitted event", function () {
+        it("allows you to listen once for an emitted event", mock.initConverse(function (_converse) {
             this.callback = function () {};
             spyOn(this, 'callback');
-            converse.once('initialized', this.callback);
-            converse.emit('initialized');
+            _converse.once('connected', this.callback);
+            _converse.emit('connected');
             expect(this.callback).toHaveBeenCalled();
-            converse.emit('initialized');
-            expect(this.callback.callCount, 1);
-            converse.emit('initialized');
-            expect(this.callback.callCount, 1);
-        });
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 1);
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 1);
+        }));
 
-        it("allows you to stop listening or subscribing to an event", function () {
+        it("allows you to stop listening or subscribing to an event", mock.initConverse(function (_converse) {
             this.callback = function () {};
             this.anotherCallback = function () {};
             this.neverCalled = function () {};
@@ -45,26 +36,26 @@
             spyOn(this, 'callback');
             spyOn(this, 'anotherCallback');
             spyOn(this, 'neverCalled');
-            converse.on('initialized', this.callback);
-            converse.on('initialized', this.anotherCallback);
+            _converse.on('connected', this.callback);
+            _converse.on('connected', this.anotherCallback);
 
-            converse.emit('initialized');
+            _converse.emit('connected');
             expect(this.callback).toHaveBeenCalled();
             expect(this.anotherCallback).toHaveBeenCalled();
 
-            converse.off('initialized', this.callback);
+            _converse.off('connected', this.callback);
 
-            converse.emit('initialized');
-            expect(this.callback.callCount, 1);
-            expect(this.anotherCallback.callCount, 2);
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 1);
+            expect(this.anotherCallback.calls.count(), 2);
 
-            converse.once('initialized', this.neverCalled);
-            converse.off('initialized', this.neverCalled);
+            _converse.once('connected', this.neverCalled);
+            _converse.off('connected', this.neverCalled);
 
-            converse.emit('initialized');
-            expect(this.callback.callCount, 1);
-            expect(this.anotherCallback.callCount, 3);
+            _converse.emit('connected');
+            expect(this.callback.calls.count(), 1);
+            expect(this.anotherCallback.calls.count(), 3);
             expect(this.neverCalled).not.toHaveBeenCalled();
-        });
-    }, converse, mock, test_utils));
+        }));
+    });
 }));

@@ -7,6 +7,46 @@
             "plural_forms": "nplurals=2; plural=(n != 1);",
             "lang": "ca"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "Desa"
+         ],
+         "Cancel": [
+            null,
+            "Cancel·la"
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "Feu clic per obrir aquesta sala"
+         ],
+         "Show more information on this room": [
+            null,
+            "Mostra més informació d'aquesta sala"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Close this chat box": [
             null,
             "Tanca aquest quadre del xat"
@@ -14,6 +54,10 @@
          "Personal message": [
             null,
             "Missatge personal"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
@@ -23,9 +67,17 @@
             null,
             ""
          ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
          "is typing": [
             null,
             "està escrivint"
+         ],
+         "Stopped typing on the other device": [
+            null,
+            ""
          ],
          "has stopped typing": [
             null,
@@ -63,10 +115,6 @@
             null,
             "Esborra tots els missatges"
          ],
-         "Hide the list of occupants": [
-            null,
-            "Amaga la llista d'ocupants"
-         ],
          "Insert a smiley": [
             null,
             "Insereix una cara somrient"
@@ -78,10 +126,6 @@
          "Contacts": [
             null,
             "Contactes"
-         ],
-         "Connecting": [
-            null,
-            "S'està establint la connexió"
          ],
          "XMPP Username:": [
             null,
@@ -126,10 +170,6 @@
          "Custom status": [
             null,
             "Estat personalitzat"
-         ],
-         "Save": [
-            null,
-            "Desa"
          ],
          "online": [
             null,
@@ -203,21 +243,13 @@
             null,
             "Canvia de xat"
          ],
-         "Click to hide these contacts": [
-            null,
-            "Feu clic per amagar aquests contactes"
-         ],
          "The connection has dropped, attempting to reconnect.": [
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            ""
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "S'està establint la connexió"
          ],
          "Authenticating": [
             null,
@@ -235,6 +267,14 @@
             null,
             "Aquest client no admet les subscripcions de presència"
          ],
+         "Click to hide these contacts": [
+            null,
+            "Feu clic per amagar aquests contactes"
+         ],
+         "Minimize this chat box": [
+            null,
+            "Minimitza aquest quadre del xat"
+         ],
          "Click to restore this chat": [
             null,
             "Feu clic per restaurar aquest xat"
@@ -243,17 +283,65 @@
             null,
             "Minimitzat"
          ],
-         "Minimize this chat box": [
+         "This room is not anonymous": [
             null,
-            "Minimitza aquest quadre del xat"
+            "Aquesta sala no és anònima"
+         ],
+         "This room now shows unavailable members": [
+            null,
+            "Aquesta sala ara mostra membres no disponibles"
+         ],
+         "This room does not show unavailable members": [
+            null,
+            "Aquesta sala no mostra membres no disponibles"
+         ],
+         "Room logging is now enabled": [
+            null,
+            "El registre de la sala està habilitat"
+         ],
+         "Room logging is now disabled": [
+            null,
+            "El registre de la sala està deshabilitat"
+         ],
+         "This room is now semi-anonymous": [
+            null,
+            "Aquesta sala ara és parcialment anònima"
+         ],
+         "This room is now fully-anonymous": [
+            null,
+            "Aquesta sala ara és totalment anònima"
+         ],
+         "A new room has been created": [
+            null,
+            "S'ha creat una sala nova"
+         ],
+         "You have been banned from this room": [
+            null,
+            "Se us ha expulsat d'aquesta sala"
+         ],
+         "You have been kicked from this room": [
+            null,
+            "Se us ha expulsat d'aquesta sala"
+         ],
+         "You have been removed from this room because of an affiliation change": [
+            null,
+            "Se us ha eliminat d'aquesta sala a causa d'un canvi d'afiliació"
+         ],
+         "You have been removed from this room because the room has changed to members-only and you're not a member": [
+            null,
+            "Se us ha eliminat d'aquesta sala perquè ara només permet membres i no en sou membre"
+         ],
+         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
+            null,
+            "Se us ha eliminat d'aquesta sala perquè s'està tancant el servei MUC (xat multiusuari)."
          ],
          "Message": [
             null,
             "Missatge"
          ],
-         "Error: could not execute the command": [
+         "Hide the list of occupants": [
             null,
-            "Error: no s'ha pogut executar l'ordre"
+            "Amaga la llista d'ocupants"
          ],
          "Error: the \"": [
             null,
@@ -262,6 +350,10 @@
          "Are you sure you want to clear the messages from this room?": [
             null,
             "Segur que voleu esborrar els missatges d'aquesta sala?"
+         ],
+         "Error: could not execute the command": [
+            null,
+            "Error: no s'ha pogut executar l'ordre"
          ],
          "Change user's affiliation to admin": [
             null,
@@ -307,21 +399,13 @@
             null,
             "Revoca l'afiliació de l'usuari"
          ],
-         "Set room topic": [
+         "Set room subject (alias for /subject)": [
             null,
-            "Defineix un tema per a la sala"
+            ""
          ],
          "Allow muted user to post messages": [
             null,
             "Permet que un usuari silenciat publiqui missatges"
-         ],
-         "Cancel": [
-            null,
-            "Cancel·la"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "S'ha produït un error en intentar desar el formulari."
          ],
          "The nickname you chose is reserved or currently in use, please choose a different one.": [
             null,
@@ -343,113 +427,21 @@
             null,
             "Envia"
          ],
-         "This room is not anonymous": [
-            null,
-            "Aquesta sala no és anònima"
-         ],
-         "This room now shows unavailable members": [
-            null,
-            "Aquesta sala ara mostra membres no disponibles"
-         ],
-         "This room does not show unavailable members": [
-            null,
-            "Aquesta sala no mostra membres no disponibles"
-         ],
-         "Non-privacy-related room configuration has changed": [
-            null,
-            "S'ha canviat la configuració de la sala no relacionada amb la privadesa"
-         ],
-         "Room logging is now enabled": [
-            null,
-            "El registre de la sala està habilitat"
-         ],
-         "Room logging is now disabled": [
-            null,
-            "El registre de la sala està deshabilitat"
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "Aquesta sala ara no és anònima"
-         ],
-         "This room is now semi-anonymous": [
-            null,
-            "Aquesta sala ara és parcialment anònima"
-         ],
-         "This room is now fully-anonymous": [
-            null,
-            "Aquesta sala ara és totalment anònima"
-         ],
-         "A new room has been created": [
-            null,
-            "S'ha creat una sala nova"
-         ],
-         "You have been banned from this room": [
-            null,
-            "Se us ha expulsat d'aquesta sala"
-         ],
-         "You have been kicked from this room": [
-            null,
-            "Se us ha expulsat d'aquesta sala"
-         ],
-         "You have been removed from this room because of an affiliation change": [
-            null,
-            "Se us ha eliminat d'aquesta sala a causa d'un canvi d'afiliació"
-         ],
-         "You have been removed from this room because the room has changed to members-only and you're not a member": [
-            null,
-            "Se us ha eliminat d'aquesta sala perquè ara només permet membres i no en sou membre"
-         ],
-         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
-            null,
-            "Se us ha eliminat d'aquesta sala perquè s'està tancant el servei MUC (xat multiusuari)."
-         ],
-         "<strong>%1$s</strong> has been banned": [
-            null,
-            "S'ha expulsat <strong>%1$s</strong>"
-         ],
-         "<strong>%1$s</strong>'s nickname has changed": [
-            null,
-            "L'àlies de <strong>%1$s</strong> ha canviat"
-         ],
-         "<strong>%1$s</strong> has been kicked out": [
-            null,
-            "S'ha expulsat <strong>%1$s</strong>"
-         ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
-            null,
-            "S'ha eliminat <strong>%1$s</strong> a causa d'un canvi d'afiliació"
-         ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
-            null,
-            "S'ha eliminat <strong>%1$s</strong> perquè no és membre"
-         ],
-         "Your nickname has been changed to: <strong>%1$s</strong>": [
-            null,
-            "El vostre àlies ha canviat a: <strong>%1$s</strong>"
-         ],
          "The reason given is: \"": [
             null,
             "El motiu indicat és: \""
          ],
-         "You are not on the member list of this room": [
+         " has left the room. \"": [
             null,
-            "No sou a la llista de membres d'aquesta sala"
+            ""
          ],
-         "No nickname was specified": [
+         " has joined the room. \"": [
             null,
-            "No s'ha especificat cap àlies"
+            ""
          ],
-         "You are not allowed to create new rooms": [
+         " has joined the room.": [
             null,
-            "No teniu permís per crear sales noves"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "El vostre àlies no s'ajusta a les polítiques d'aquesta sala"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "Aquesta sala (encara) no existeix"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
@@ -458,6 +450,66 @@
          "Occupants": [
             null,
             "Ocupants"
+         ],
+         "Hidden": [
+            null,
+            "Amagat"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "Moderada"
+         ],
+         "Non-anonymous": [
+            null,
+            "No és anònima"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "Pública"
+         ],
+         "Semi-anonymous": [
+            null,
+            "Semianònima"
+         ],
+         "Unmoderated": [
+            null,
+            "No moderada"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
+            null,
+            ""
          ],
          "You are about to invite %1$s to the chat room \"%2$s\". ": [
             null,
@@ -495,14 +547,6 @@
             null,
             "Sales a %1$s"
          ],
-         "Click to open this room": [
-            null,
-            "Feu clic per obrir aquesta sala"
-         ],
-         "Show more information on this room": [
-            null,
-            "Mostra més informació d'aquesta sala"
-         ],
          "Description:": [
             null,
             "Descripció:"
@@ -519,21 +563,9 @@
             null,
             "Cal autenticar-se"
          ],
-         "Hidden": [
-            null,
-            "Amagat"
-         ],
          "Requires an invitation": [
             null,
             "Cal tenir una invitació"
-         ],
-         "Moderated": [
-            null,
-            "Moderada"
-         ],
-         "Non-anonymous": [
-            null,
-            "No és anònima"
          ],
          "Open room": [
             null,
@@ -543,21 +575,9 @@
             null,
             "Sala permanent"
          ],
-         "Public": [
-            null,
-            "Pública"
-         ],
-         "Semi-anonymous": [
-            null,
-            "Semianònima"
-         ],
          "Temporary room": [
             null,
             "Sala temporal"
-         ],
-         "Unmoderated": [
-            null,
-            "No moderada"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -758,6 +778,10 @@
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
             null,
             "El proveïdor ha rebutjat l'intent de registre. Comproveu que els valors que heu introduït siguin correctes."
+         ],
+         "Retry": [
+            null,
+            ""
          ],
          "This contact is busy": [
             null,

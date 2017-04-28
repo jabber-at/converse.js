@@ -1,6 +1,5 @@
 #conversejs {
     #controlbox {
-        display: none;
         margin-right: 2*$chat-gutter;
         @media screen and (max-width: $mobile-portrait-length) {
             margin: 0;
@@ -115,8 +114,9 @@
                     width: 100%;
                 }
             }
-            #available-chatrooms {
-                padding: 0 1em 2em 1em;
+            dl.rooms-list {
+                margin: 0 1em;
+                padding: 0;
                 text-align: left;
                 dt {
                     border: none;
@@ -132,7 +132,7 @@
                     color: $text-color;
                     display: block;
                     overflow: hidden;
-                    padding: 0.4em;
+                    padding: 0.1em;
                     text-shadow: 0 1px 0 $text-shadow-color;
                     word-wrap: break-word;
                     &:hover {
@@ -140,7 +140,6 @@
                     }
                     a {
                         &.room-info {
-                            display: none;
                             clear: right;
                             display: block;
                             &:before {
@@ -153,7 +152,7 @@
                         }
                     }
                     .room-info {
-                        font-size: 11px;
+                        font-size: $font-size-small;
                         font-style: normal;
                         font-weight: normal;
                     }
@@ -258,7 +257,7 @@
                 list-style: none;
                 padding-left: 0;
                 text-shadow: white 0 1px 0;
-                width: 38%;
+                width: 40%;
                 a {
                     background-color: white;
                     border-bottom: 1px solid $border-color;
@@ -267,7 +266,7 @@
                     box-shadow: inset 2px -2px 20px rgba(0, 0, 0, 0.3);
                     color: $text-color;
                     display: block;
-                    font-size: 12px;
+                    font-size: $font-size-small;
                     height: $chat-head-height - 1px;
                     line-height: $chat-head-height - 1px;
                     margin: 0;
@@ -295,16 +294,13 @@
             text-align: left;
             padding: 0;
             padding-left: 0.3em;
-            .choose-xmpp-status {
-                width: 155px;
-            }
             .choose-xmpp-status,
             .toggle-xmpp-contact-form {
                 text-shadow: 0 1px 0 #ffffff;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                display: inline;
+                display: inline-block;
             }
             &.no-border {
                 border: 0;

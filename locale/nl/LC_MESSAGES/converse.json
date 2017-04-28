@@ -4,18 +4,74 @@
       "converse": {
          "": {
             "domain": "converse",
-            "plural_forms": "nplurals=2; plural=(n != 1);",
+            "plural_forms": "nplurals=2; plural=n != 1;",
             "lang": "nl"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "Opslaan"
+         ],
+         "Cancel": [
+            null,
+            "Annuleren"
+         ],
+         "Sorry, something went wrong while trying to save your bookmark.": [
+            null,
+            ""
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "Klik om room te openen"
+         ],
+         "Show more information on this room": [
+            null,
+            "Toon meer informatie over deze room"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Personal message": [
             null,
             "Persoonlijk bericht"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
             "ikzelf"
          ],
          "A very large message has been received.This might be due to an attack meant to degrade the chat performance.Output has been shortened.": [
+            null,
+            ""
+         ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
+         "Stopped typing on the other device": [
             null,
             ""
          ],
@@ -35,10 +91,6 @@
             null,
             ""
          ],
-         "Hide the list of occupants": [
-            null,
-            ""
-         ],
          "Insert a smiley": [
             null,
             ""
@@ -50,10 +102,6 @@
          "Contacts": [
             null,
             "Contacten"
-         ],
-         "Connecting": [
-            null,
-            "Verbinden"
          ],
          "Password:": [
             null,
@@ -86,10 +134,6 @@
          "Custom status": [
             null,
             ""
-         ],
-         "Save": [
-            null,
-            "Opslaan"
          ],
          "online": [
             null,
@@ -163,13 +207,9 @@
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            "Verbinding verbroken."
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "Verbinden"
          ],
          "Authenticating": [
             null,
@@ -187,93 +227,13 @@
             null,
             ""
          ],
-         "Minimize this box": [
+         "Minimize this chat box": [
             null,
             ""
          ],
          "Minimized": [
             null,
             ""
-         ],
-         "Minimize this chat box": [
-            null,
-            ""
-         ],
-         "Message": [
-            null,
-            "Bericht"
-         ],
-         "Error: could not execute the command": [
-            null,
-            ""
-         ],
-         "Error: the \"": [
-            null,
-            ""
-         ],
-         "Change user's affiliation to admin": [
-            null,
-            ""
-         ],
-         "Change user role to occupant": [
-            null,
-            ""
-         ],
-         "Grant membership to a user": [
-            null,
-            ""
-         ],
-         "Remove user's ability to post messages": [
-            null,
-            ""
-         ],
-         "Change your nickname": [
-            null,
-            ""
-         ],
-         "Grant moderator role to user": [
-            null,
-            ""
-         ],
-         "Revoke user's membership": [
-            null,
-            ""
-         ],
-         "Allow muted user to post messages": [
-            null,
-            ""
-         ],
-         "Cancel": [
-            null,
-            "Annuleren"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "Een error tijdens het opslaan van het formulier."
-         ],
-         "The nickname you chose is reserved or currently in use, please choose a different one.": [
-            null,
-            ""
-         ],
-         "Please choose your nickname": [
-            null,
-            ""
-         ],
-         "Nickname": [
-            null,
-            "Nickname"
-         ],
-         "This chatroom requires a password": [
-            null,
-            "Chatroom heeft een wachtwoord"
-         ],
-         "Password: ": [
-            null,
-            "Wachtwoord: "
-         ],
-         "Submit": [
-            null,
-            "Indienen"
          ],
          "This room is not anonymous": [
             null,
@@ -287,7 +247,7 @@
             null,
             ""
          ],
-         "Non-privacy-related room configuration has changed": [
+         "The room configuration has changed": [
             null,
             ""
          ],
@@ -298,10 +258,6 @@
          "Room logging is now disabled": [
             null,
             ""
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "Deze room is nu niet annoniem"
          ],
          "This room is now semi-anonymous": [
             null,
@@ -335,19 +291,91 @@
             null,
             ""
          ],
-         "<strong>%1$s</strong> has been banned": [
-            null,
-            "<strong>%1$s</strong> is verbannen"
-         ],
-         "<strong>%1$s</strong> has been kicked out": [
-            null,
-            "<strong>%1$s</strong> has been kicked out"
-         ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
+         "%1$s has been removed because of an affiliation change": [
             null,
             ""
          ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
+         "%1$s has been removed for not being a member": [
+            null,
+            ""
+         ],
+         "Message": [
+            null,
+            "Bericht"
+         ],
+         "Hide the list of occupants": [
+            null,
+            ""
+         ],
+         "Error: the \"": [
+            null,
+            ""
+         ],
+         "Error: could not execute the command": [
+            null,
+            ""
+         ],
+         "Change user's affiliation to admin": [
+            null,
+            ""
+         ],
+         "Change user role to occupant": [
+            null,
+            ""
+         ],
+         "Grant membership to a user": [
+            null,
+            ""
+         ],
+         "Remove user's ability to post messages": [
+            null,
+            ""
+         ],
+         "Change your nickname": [
+            null,
+            ""
+         ],
+         "Grant moderator role to user": [
+            null,
+            ""
+         ],
+         "Revoke user's membership": [
+            null,
+            ""
+         ],
+         "Set room subject (alias for /subject)": [
+            null,
+            ""
+         ],
+         "Allow muted user to post messages": [
+            null,
+            ""
+         ],
+         "The nickname you chose is reserved or currently in use, please choose a different one.": [
+            null,
+            ""
+         ],
+         "Please choose your nickname": [
+            null,
+            ""
+         ],
+         "Nickname": [
+            null,
+            "Bijnaam"
+         ],
+         "This chatroom requires a password": [
+            null,
+            "Chatroom heeft een wachtwoord"
+         ],
+         "Password: ": [
+            null,
+            "Wachtwoord: "
+         ],
+         "Submit": [
+            null,
+            "Indienen"
+         ],
+         "The reason given is: \"%1$s\".": [
             null,
             ""
          ],
@@ -355,31 +383,83 @@
             null,
             ""
          ],
-         "You are not on the member list of this room": [
+         " has left the room. \"": [
             null,
-            "Je bent niet een gebruiker van deze room"
+            ""
          ],
-         "No nickname was specified": [
+         " has joined the room. \"": [
             null,
-            "Geen nickname ingegeven"
+            ""
          ],
-         "You are not allowed to create new rooms": [
+         " has joined the room.": [
             null,
-            "Je bent niet toegestaan nieuwe rooms te maken"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "Je nickname is niet conform policy"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "Deze room bestaat niet"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
             ""
          ],
          "Invite": [
+            null,
+            ""
+         ],
+         "Hidden": [
+            null,
+            "Verborgen"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "Gemodereerd"
+         ],
+         "Non-anonymous": [
+            null,
+            "Niet annoniem"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "Publiek"
+         ],
+         "Semi-anonymous": [
+            null,
+            "Semi annoniem"
+         ],
+         "Unmoderated": [
+            null,
+            "Niet gemodereerd"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
             null,
             ""
          ],
@@ -415,14 +495,6 @@
             null,
             "Room op %1$s"
          ],
-         "Click to open this room": [
-            null,
-            "Klik om room te openen"
-         ],
-         "Show more information on this room": [
-            null,
-            "Toon meer informatie over deze room"
-         ],
          "Description:": [
             null,
             "Beschrijving"
@@ -439,21 +511,9 @@
             null,
             "Verificatie vereist"
          ],
-         "Hidden": [
-            null,
-            "Verborgen"
-         ],
          "Requires an invitation": [
             null,
             "Veriest een uitnodiging"
-         ],
-         "Moderated": [
-            null,
-            "Gemodereerd"
-         ],
-         "Non-anonymous": [
-            null,
-            "Niet annoniem"
          ],
          "Open room": [
             null,
@@ -463,21 +523,9 @@
             null,
             "Blijvend room"
          ],
-         "Public": [
-            null,
-            "Publiek"
-         ],
-         "Semi-anonymous": [
-            null,
-            "Semi annoniem"
-         ],
          "Temporary room": [
             null,
             "Tijdelijke room"
-         ],
-         "Unmoderated": [
-            null,
-            "Niet gemodereerd"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -652,6 +700,10 @@
             ""
          ],
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
+            null,
+            ""
+         ],
+         "Retry": [
             null,
             ""
          ],

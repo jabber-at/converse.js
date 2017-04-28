@@ -1,8 +1,10 @@
+#converse-embedded-chat,
 #conversejs {
     bottom: 0;
     color: $text-color;
     direction: ltr;
     display: block;
+    font-family: "Helvetica", "Arial", sans-serif;
     font-size: $font-size;
     height: $bottom-gutter-height;
     position: fixed;
@@ -16,6 +18,14 @@
     @media screen and (max-width: $mobile-portrait-length) {
         width: 100%;
         width: 100vw;
+    }
+
+    ::placeholder {
+        color: #BBB;
+    }
+
+    .circle {
+        border-radius: 50%;
     }
 
     ::selection {
@@ -32,26 +42,29 @@
     .emoticon {
         font-size: $font-size;
     }
-    .left {
-        float: left;
+
+    @keyframes fadein {
+        0% { opacity: 0 }
+        100% { opacity: 1 }
     }
-    .right {
-        float: right;
+    @-webkit-keyframes fadein {
+        0% { opacity: 0 }
+        100% { opacity: 1 }
     }
-    .centered {
-        text-align: center;
-        display: block;
-        margin: 5em auto;
-    }
-    .hor_centered {
-        text-align: center;
-        display: block;
-        margin: 0 auto;
-        clear: both;
+
+    .visible {
+        visibility: visible;
+        opacity: 1;
+        @include animation-name(fadein);
+        @include animation-fill-mode(forwards);
+        @include animation-duration(350ms);
+        @include animation-timing-function(ease);
     }
     .hidden {
+        opacity: 0;
         display: none;
     }
+
     .locked {
         padding-right: 22px;
     }
@@ -69,12 +82,30 @@
         @include animation(spin 2s infinite, linear);
         display: block;
         text-align: center;
-        margin: 5px;
+        margin: 1em;
         &:before {
             font-size: 24px;
             font-family: 'Converse-js' !important;
             content: "\231b";
         }
+    }
+    .left {
+        float: left;
+    }
+    .right {
+        float: right;
+    }
+    .centered {
+        text-align: center;
+        display: block;
+        margin: 0;
+        padding: 50% 0;
+    }
+    .hor_centered {
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+        clear: both;
     }
 
     .button-group,
@@ -139,25 +170,27 @@
     form {
         &.pure-form.converse-form {
             background: white;
-            margin: 1em;
+            padding: 1em;
             legend {
                 color: $text-color;
             }
             label {
                 margin-top: 1em;
+                font-size: $font-size-large;
             }
             input[type=text],
             input[type=password],
             input[type=number],
             input[type=button],
             input[type=submit] {
-                height: 2.2em;
+                padding: 0.5em;
             }
             input[type=button],
             input[type=submit] {
                 padding-left: 1em;
                 padding-right: 1em;
-                margin-right: 1em;
+                margin: 0.5em 0;
+                border: none;
             }
             input.error {
                 border: 1px solid red;
@@ -171,6 +204,10 @@
                     color: $text-color;
                 }
             }
+        }
+        &.pure-form.converse-centered-form {
+            text-align: center;
+            width: 100%;
         }
     }
 

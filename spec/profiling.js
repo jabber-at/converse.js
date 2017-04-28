@@ -1,27 +1,17 @@
-/*global converse */
 (function (root, factory) {
-    define([
-        "jquery",
-        "underscore",
-        "mock",
-        "test_utils"
-        ], function ($, _, mock, test_utils) {
-            return factory($, _, mock, test_utils);
-        }
-    );
-} (this, function ($, _, mock, test_utils) {
-    var Strophe = converse_api.env.Strophe;
-    var $iq = converse_api.env.$iq;
+    define(["mock", "converse-core", "test_utils"], factory);
+} (this, function (mock, converse, test_utils) {
+    var _ = converse.env._;
+    var $iq = converse.env.$iq;
 
     describe("Profiling", function() {
-        beforeEach(function() {
+        afterEach(function () {
+            converse.user.logout();
             test_utils.clearBrowserStorage();
-            converse.rosterview.model.reset();
-            converse.connection._changeConnectStatus(Strophe.Status.CONNECTED);
         });
 
-        xit("adds hundreds of contacts to the roster", $.proxy(function() {
-            converse.roster_groups = false;
+        xit("adds hundreds of contacts to the roster", mock.initConverse(function(_converse) {
+            _converse.roster_groups = false;
             expect(this.roster.pluck('jid').length).toBe(0);
             var stanza = $iq({
                 to: this.connection.jid,
@@ -41,11 +31,11 @@
             });
             this.roster.onReceivedFromServer(stanza.tree());
             // expect(this.roster.pluck('jid').length).toBe(400);
-        }, converse));
+        }));
 
-        xit("adds hundreds of contacts to the roster, with roster groups", $.proxy(function() {
-            // converse.show_only_online_users = true;
-            converse.roster_groups = true;
+        xit("adds hundreds of contacts to the roster, with roster groups", mock.initConverse(function(_converse) {
+            // _converse.show_only_online_users = true;
+            _converse.roster_groups = true;
             expect(this.roster.pluck('jid').length).toBe(0);
             var stanza = $iq({
                 to: this.connection.jid,
@@ -65,6 +55,6 @@
             });
             this.roster.onReceivedFromServer(stanza.tree());
             //expect(this.roster.pluck('jid').length).toBe(400);
-        }, converse));
+        }));
     });
 }));

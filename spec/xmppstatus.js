@@ -1,30 +1,23 @@
-/*global converse */
 (function (root, factory) {
-    define([
-        "jquery",
-        "mock",
-        "test_utils"
-        ], function ($, mock, test_utils) {
-            return factory($, mock, test_utils);
-        }
-    );
-} (this, function ($, mock, test_utils) {
-    return describe("The XMPPStatus model", $.proxy(function(mock, test_utils) {
-        beforeEach($.proxy(function () {
-            window.localStorage.clear();
-            window.sessionStorage.clear();
-        }, converse));
-        it("won't send <show>online when setting a custom status message", $.proxy(function () {
-            this.xmppstatus.save({'status': 'online'});
-            spyOn(this.xmppstatus, 'setStatusMessage').andCallThrough();
-            spyOn(converse.connection, 'send');
-            this.xmppstatus.setStatusMessage("I'm also happy!");
-            runs (function () {
-                expect(converse.connection.send).toHaveBeenCalled();
-                var $stanza = $(converse.connection.send.argsForCall[0][0].tree());
-                expect($stanza.children().length).toBe(1);
-                expect($stanza.children('show').length).toBe(0);
-            });
-        }, converse));
-    }, converse, mock, test_utils));
+    define(["mock", "converse-core", "test-utils"], factory);
+} (this, function (mock, converse, test_utils) {
+    var $ = converse.env.jQuery;
+
+    return describe("The XMPPStatus model", function() {
+
+        it("won't send <show>online</show> when setting a custom status message", mock.initConverse(function (_converse) {
+            _converse.xmppstatus.save({'status': 'online'});
+            spyOn(_converse.xmppstatus, 'setStatusMessage').and.callThrough();
+            spyOn(_converse.connection, 'send');
+            _converse.xmppstatus.setStatusMessage("I'm also happy!");
+            expect(_converse.connection.send).toHaveBeenCalled();
+            var $stanza = $(_converse.connection.send.calls.argsFor(0)[0].tree());
+            expect($stanza.children().length).toBe(2);
+            expect($stanza.children('status').length).toBe(1);
+            expect($stanza.children('status').text()).toBe("I'm also happy!");
+            expect($stanza.children('show').length).toBe(0);
+            expect($stanza.children('priority').length).toBe(1);
+            expect($stanza.children('priority').text()).toBe('0');
+        }));
+    });
 }));

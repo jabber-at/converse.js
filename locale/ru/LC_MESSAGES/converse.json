@@ -6,6 +6,46 @@
             "domain": "converse",
             "lang": "ru"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "Сохранить"
+         ],
+         "Cancel": [
+            null,
+            "Отменить"
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "Зайти в чат"
+         ],
+         "Show more information on this room": [
+            null,
+            "Показать больше информации об этом чате"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Close this chat box": [
             null,
             "Закрыть это окно чата"
@@ -13,6 +53,10 @@
          "Personal message": [
             null,
             "Ваше сообщение"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
@@ -22,9 +66,17 @@
             null,
             ""
          ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
          "is typing": [
             null,
             "набирает текст"
+         ],
+         "Stopped typing on the other device": [
+            null,
+            ""
          ],
          "has stopped typing": [
             null,
@@ -62,10 +114,6 @@
             null,
             "Очистить все сообщения"
          ],
-         "Hide the list of occupants": [
-            null,
-            "Спрятать список участников"
-         ],
          "Insert a smiley": [
             null,
             "Вставить смайлик"
@@ -77,10 +125,6 @@
          "Contacts": [
             null,
             "Контакты"
-         ],
-         "Connecting": [
-            null,
-            "Соединение"
          ],
          "XMPP Username:": [
             null,
@@ -125,10 +169,6 @@
          "Custom status": [
             null,
             "Произвольный статус"
-         ],
-         "Save": [
-            null,
-            "Сохранить"
          ],
          "online": [
             null,
@@ -198,21 +238,13 @@
             null,
             "Включить чат"
          ],
-         "Click to hide these contacts": [
-            null,
-            "Кликните, чтобы спрятать эти контакты"
-         ],
          "The connection has dropped, attempting to reconnect.": [
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            "Отключено"
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "Соединение"
          ],
          "Authenticating": [
             null,
@@ -230,6 +262,14 @@
             null,
             "Программа не поддерживает уведомления о статусе"
          ],
+         "Click to hide these contacts": [
+            null,
+            "Кликните, чтобы спрятать эти контакты"
+         ],
+         "Minimize this chat box": [
+            null,
+            "Свернуть окно чата"
+         ],
          "Click to restore this chat": [
             null,
             "Кликните, чтобы развернуть чат"
@@ -238,17 +278,65 @@
             null,
             "Свёрнуто"
          ],
-         "Minimize this chat box": [
+         "This room is not anonymous": [
             null,
-            "Свернуть окно чата"
+            "Этот чат не анонимный"
+         ],
+         "This room now shows unavailable members": [
+            null,
+            "Этот чат показывает недоступных собеседников"
+         ],
+         "This room does not show unavailable members": [
+            null,
+            "Этот чат не показывает недоступных собеседников"
+         ],
+         "Room logging is now enabled": [
+            null,
+            "Протокол чата включен"
+         ],
+         "Room logging is now disabled": [
+            null,
+            "Протокол чата выключен"
+         ],
+         "This room is now semi-anonymous": [
+            null,
+            "Этот чат частично анонимный"
+         ],
+         "This room is now fully-anonymous": [
+            null,
+            "Этот чат стал полностью анонимный"
+         ],
+         "A new room has been created": [
+            null,
+            "Появился новый чат"
+         ],
+         "You have been banned from this room": [
+            null,
+            "Вам запрещено подключатся к этому чату"
+         ],
+         "You have been kicked from this room": [
+            null,
+            "Вас выкинули из чата"
+         ],
+         "You have been removed from this room because of an affiliation change": [
+            null,
+            "Вас удалили из-за изменения прав"
+         ],
+         "You have been removed from this room because the room has changed to members-only and you're not a member": [
+            null,
+            "Вы отключены от чата, потому что он теперь только для участников"
+         ],
+         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
+            null,
+            "Вы отключены от этого чата, потому что службы чатов отключилась."
          ],
          "Message": [
             null,
             "Сообщение"
          ],
-         "Error: could not execute the command": [
+         "Hide the list of occupants": [
             null,
-            "Ошибка: невозможно выполнить команду"
+            "Спрятать список участников"
          ],
          "Error: the \"": [
             null,
@@ -257,6 +345,10 @@
          "Are you sure you want to clear the messages from this room?": [
             null,
             "Вы уверены, что хотите очистить сообщения из этого чата?"
+         ],
+         "Error: could not execute the command": [
+            null,
+            "Ошибка: невозможно выполнить команду"
          ],
          "Change user's affiliation to admin": [
             null,
@@ -298,17 +390,13 @@
             null,
             "Отозвать членство пользователя"
          ],
+         "Set room subject (alias for /subject)": [
+            null,
+            ""
+         ],
          "Allow muted user to post messages": [
             null,
             "Разрешить заглушенным пользователям отправлять сообщения"
-         ],
-         "Cancel": [
-            null,
-            "Отменить"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "При сохранение формы произошла ошибка."
          ],
          "The nickname you chose is reserved or currently in use, please choose a different one.": [
             null,
@@ -330,117 +418,89 @@
             null,
             "Отправить"
          ],
-         "This room is not anonymous": [
+         " has left the room. \"": [
             null,
-            "Этот чат не анонимный"
+            ""
          ],
-         "This room now shows unavailable members": [
+         " has joined the room. \"": [
             null,
-            "Этот чат показывает недоступных собеседников"
+            ""
          ],
-         "This room does not show unavailable members": [
+         " has joined the room.": [
             null,
-            "Этот чат не показывает недоступных собеседников"
-         ],
-         "Non-privacy-related room configuration has changed": [
-            null,
-            "Изменились настройки чата, не относящиеся к приватности"
-         ],
-         "Room logging is now enabled": [
-            null,
-            "Протокол чата включен"
-         ],
-         "Room logging is now disabled": [
-            null,
-            "Протокол чата выключен"
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "Этот чат больше не анонимный"
-         ],
-         "This room is now semi-anonymous": [
-            null,
-            "Этот чат частично анонимный"
-         ],
-         "This room is now fully-anonymous": [
-            null,
-            "Этот чат стал полностью анонимный"
-         ],
-         "A new room has been created": [
-            null,
-            "Появился новый чат"
-         ],
-         "You have been banned from this room": [
-            null,
-            "Вам запрещено подключатся к этому чату"
-         ],
-         "You have been kicked from this room": [
-            null,
-            "Вас выкинули из чата"
-         ],
-         "You have been removed from this room because of an affiliation change": [
-            null,
-            "Вас удалили из-за изменения прав"
-         ],
-         "You have been removed from this room because the room has changed to members-only and you're not a member": [
-            null,
-            "Вы отключены от чата, потому что он теперь только для участников"
-         ],
-         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
-            null,
-            "Вы отключены от этого чата, потому что службы чатов отключилась."
-         ],
-         "<strong>%1$s</strong> has been banned": [
-            null,
-            "<strong>%1$s</strong> забанен"
-         ],
-         "<strong>%1$s</strong> has been kicked out": [
-            null,
-            "<strong>%1$s</strong> выкинут"
-         ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
-            null,
-            "<strong>%1$s</strong> удалён, потому что изменились права"
-         ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
-            null,
-            "<strong>%1$s</strong> удалён, потому что не участник"
-         ],
-         "Your nickname has been changed to: <strong>%1$s</strong>": [
-            null,
-            "Ваш псевдоним изменён на: <strong>%1$s</strong>"
-         ],
-         "You are not on the member list of this room": [
-            null,
-            "Вы не участник этого чата"
-         ],
-         "No nickname was specified": [
-            null,
-            "Вы не указали псевдоним"
-         ],
-         "You are not allowed to create new rooms": [
-            null,
-            "Вы не имеете права создавать чаты"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "Псевдоним запрещён правилами чата"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "Этот чат не существует"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
             "Тема %2$s устатновлена %1$s"
          ],
+         "Occupants": [
+            null,
+            "Участники:"
+         ],
          "Invite": [
             null,
             "Пригласить"
          ],
-         "Occupants": [
+         "Hidden": [
             null,
-            "Участники:"
+            "Скрыто"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "Модерируемая"
+         ],
+         "Non-anonymous": [
+            null,
+            "Не анонимная"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "Публичный"
+         ],
+         "Semi-anonymous": [
+            null,
+            "Частично анонимный"
+         ],
+         "Unmoderated": [
+            null,
+            "Немодерируемый"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
+            null,
+            ""
          ],
          "You are about to invite %1$s to the chat room \"%2$s\". ": [
             null,
@@ -478,14 +538,6 @@
             null,
             "Чаты %1$s:"
          ],
-         "Click to open this room": [
-            null,
-            "Зайти в чат"
-         ],
-         "Show more information on this room": [
-            null,
-            "Показать больше информации об этом чате"
-         ],
          "Description:": [
             null,
             "Описание:"
@@ -502,21 +554,9 @@
             null,
             "Требуется авторизация"
          ],
-         "Hidden": [
-            null,
-            "Скрыто"
-         ],
          "Requires an invitation": [
             null,
             "Требуется приглашение"
-         ],
-         "Moderated": [
-            null,
-            "Модерируемая"
-         ],
-         "Non-anonymous": [
-            null,
-            "Не анонимная"
          ],
          "Open room": [
             null,
@@ -526,21 +566,9 @@
             null,
             "Постоянный чат"
          ],
-         "Public": [
-            null,
-            "Публичный"
-         ],
-         "Semi-anonymous": [
-            null,
-            "Частично анонимный"
-         ],
          "Temporary room": [
             null,
             "Временный чат"
-         ],
-         "Unmoderated": [
-            null,
-            "Немодерируемый"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -725,6 +753,10 @@
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
             null,
             "Провайдер отклонил вашу попытку зарегистрироваться. Пожалуйста, проверьте, правильно ли введены значения."
+         ],
+         "Retry": [
+            null,
+            ""
          ],
          "This contact is busy": [
             null,

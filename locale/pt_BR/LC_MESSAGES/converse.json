@@ -7,15 +7,71 @@
             "plural_forms": "nplurals=2; plural=(n > 1);",
             "lang": "pt_BR"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "Salvar"
+         ],
+         "Cancel": [
+            null,
+            "Cancelar"
+         ],
+         "Sorry, something went wrong while trying to save your bookmark.": [
+            null,
+            ""
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "CLique para abrir a sala"
+         ],
+         "Show more information on this room": [
+            null,
+            "Mostrar mais informações nessa sala"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Personal message": [
             null,
             "Mensagem pessoal"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
             "eu"
          ],
          "A very large message has been received.This might be due to an attack meant to degrade the chat performance.Output has been shortened.": [
+            null,
+            ""
+         ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
+         "Stopped typing on the other device": [
             null,
             ""
          ],
@@ -35,10 +91,6 @@
             null,
             "Tem certeza que deseja limpar as mensagens dessa caixa?"
          ],
-         "Hide the list of occupants": [
-            null,
-            ""
-         ],
          "Insert a smiley": [
             null,
             ""
@@ -50,10 +102,6 @@
          "Contacts": [
             null,
             "Contatos"
-         ],
-         "Connecting": [
-            null,
-            "Conectando"
          ],
          "Password:": [
             null,
@@ -86,10 +134,6 @@
          "Custom status": [
             null,
             "Status customizado"
-         ],
-         "Save": [
-            null,
-            "Salvar"
          ],
          "online": [
             null,
@@ -163,13 +207,9 @@
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            "Desconectado"
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "Conectando"
          ],
          "Authenticating": [
             null,
@@ -187,89 +227,13 @@
             null,
             ""
          ],
-         "Minimized": [
-            null,
-            "Minimizado"
-         ],
          "Minimize this chat box": [
             null,
             ""
          ],
-         "Message": [
+         "Minimized": [
             null,
-            "Mensagem"
-         ],
-         "Error: could not execute the command": [
-            null,
-            ""
-         ],
-         "Error: the \"": [
-            null,
-            ""
-         ],
-         "Change user's affiliation to admin": [
-            null,
-            ""
-         ],
-         "Change user role to occupant": [
-            null,
-            ""
-         ],
-         "Grant membership to a user": [
-            null,
-            ""
-         ],
-         "Remove user's ability to post messages": [
-            null,
-            ""
-         ],
-         "Change your nickname": [
-            null,
-            ""
-         ],
-         "Grant moderator role to user": [
-            null,
-            ""
-         ],
-         "Revoke user's membership": [
-            null,
-            ""
-         ],
-         "Allow muted user to post messages": [
-            null,
-            ""
-         ],
-         "Cancel": [
-            null,
-            "Cancelar"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "Ocorreu um erro enquanto tentava salvar o formulário"
-         ],
-         "The nickname you chose is reserved or currently in use, please choose a different one.": [
-            null,
-            ""
-         ],
-         "Please choose your nickname": [
-            null,
-            ""
-         ],
-         "Nickname": [
-            null,
-            "Apelido"
-         ],
-         "This chatroom requires a password": [
-            null,
-            "Esse chat precisa de senha"
-         ],
-         "Password: ": [
-            null,
-            "Senha: "
-         ],
-         "Submit": [
-            null,
-            "Enviar"
+            "Minimizado"
          ],
          "This room is not anonymous": [
             null,
@@ -283,10 +247,6 @@
             null,
             "Essa sala não mostra membros indisponíveis"
          ],
-         "Non-privacy-related room configuration has changed": [
-            null,
-            "Configuraçõs não relacionadas à privacidade mudaram"
-         ],
          "Room logging is now enabled": [
             null,
             "O log da sala está ativado"
@@ -294,10 +254,6 @@
          "Room logging is now disabled": [
             null,
             "O log da sala está desativado"
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "Esse sala é não anônima"
          ],
          "This room is now semi-anonymous": [
             null,
@@ -331,51 +287,167 @@
             null,
             "Você foi removido da sala devido a MUC (Multi-user chat)o serviço está sendo desligado"
          ],
-         "<strong>%1$s</strong> has been banned": [
+         "Message": [
             null,
-            "<strong>%1$s</strong> foi banido"
+            "Mensagem"
          ],
-         "<strong>%1$s</strong> has been kicked out": [
+         "Hide the list of occupants": [
             null,
-            "<strong>%1$s</strong> foi expulso"
+            ""
          ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
+         "Error: the \"": [
             null,
-            "<srtong>%1$s</strong> foi removido por causa de troca de associação"
+            ""
          ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
+         "Error: could not execute the command": [
             null,
-            "<strong>%1$s</strong> foi removido por não ser um membro"
+            ""
+         ],
+         "Change user's affiliation to admin": [
+            null,
+            ""
+         ],
+         "Change user role to occupant": [
+            null,
+            ""
+         ],
+         "Grant membership to a user": [
+            null,
+            ""
+         ],
+         "Remove user's ability to post messages": [
+            null,
+            ""
+         ],
+         "Change your nickname": [
+            null,
+            ""
+         ],
+         "Grant moderator role to user": [
+            null,
+            ""
+         ],
+         "Revoke user's membership": [
+            null,
+            ""
+         ],
+         "Set room subject (alias for /subject)": [
+            null,
+            ""
+         ],
+         "Allow muted user to post messages": [
+            null,
+            ""
+         ],
+         "The nickname you chose is reserved or currently in use, please choose a different one.": [
+            null,
+            ""
+         ],
+         "Please choose your nickname": [
+            null,
+            ""
+         ],
+         "Nickname": [
+            null,
+            "Apelido"
+         ],
+         "This chatroom requires a password": [
+            null,
+            "Esse chat precisa de senha"
+         ],
+         "Password: ": [
+            null,
+            "Senha: "
+         ],
+         "Submit": [
+            null,
+            "Enviar"
+         ],
+         "The reason given is: \"%1$s\".": [
+            null,
+            ""
          ],
          "The reason given is: \"": [
             null,
             ""
          ],
-         "You are not on the member list of this room": [
+         " has left the room. \"": [
             null,
-            "Você não é membro dessa sala"
+            ""
          ],
-         "No nickname was specified": [
+         " has joined the room. \"": [
             null,
-            "Você não escolheu um apelido "
+            ""
          ],
-         "You are not allowed to create new rooms": [
+         " has joined the room.": [
             null,
-            "Você não tem permitição de criar novas salas"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "Seu apelido não está de acordo com as regras da sala"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "A sala não existe (ainda)"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
             "Topico definido por %1$s para: %2$s"
          ],
          "Invite": [
+            null,
+            ""
+         ],
+         "Hidden": [
+            null,
+            "Escondido"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "Moderado"
+         ],
+         "Non-anonymous": [
+            null,
+            "Não anônimo"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "Público"
+         ],
+         "Semi-anonymous": [
+            null,
+            "Semi anônimo"
+         ],
+         "Unmoderated": [
+            null,
+            "Sem moderação"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
             null,
             ""
          ],
@@ -411,14 +483,6 @@
             null,
             "Salas em %1$s"
          ],
-         "Click to open this room": [
-            null,
-            "CLique para abrir a sala"
-         ],
-         "Show more information on this room": [
-            null,
-            "Mostrar mais informações nessa sala"
-         ],
          "Description:": [
             null,
             "Descrição:"
@@ -435,21 +499,9 @@
             null,
             "Requer autenticação"
          ],
-         "Hidden": [
-            null,
-            "Escondido"
-         ],
          "Requires an invitation": [
             null,
             "Requer um convite"
-         ],
-         "Moderated": [
-            null,
-            "Moderado"
-         ],
-         "Non-anonymous": [
-            null,
-            "Não anônimo"
          ],
          "Open room": [
             null,
@@ -459,21 +511,9 @@
             null,
             "Sala permanente"
          ],
-         "Public": [
-            null,
-            "Público"
-         ],
-         "Semi-anonymous": [
-            null,
-            "Semi anônimo"
-         ],
          "Temporary room": [
             null,
             "Sala temporária"
-         ],
-         "Unmoderated": [
-            null,
-            "Sem moderação"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -636,6 +676,10 @@
             ""
          ],
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
+            null,
+            ""
+         ],
+         "Retry": [
             null,
             ""
          ],

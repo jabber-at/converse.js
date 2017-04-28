@@ -1,9 +1,11 @@
-/*global escape, locales, Jed */
+/*global define, escape, locales, Jed */
 (function (root, factory) {
     define([
-        "jquery",
+        "jquery.noconflict",
         "jquery.browser",
-        "underscore",
+        "lodash.noconflict",
+        "locales",
+        "moment_with_locales",
         "tpl!field",
         "tpl!select_option",
         "tpl!form_select",
@@ -14,7 +16,7 @@
         "tpl!form_captcha"
     ], factory);
 }(this, function (
-        $, dummy, _,
+        $, dummy, _, locales, moment,
         tpl_field,
         tpl_select_option,
         tpl_form_select,
@@ -25,6 +27,7 @@
         tpl_form_captcha
     ) {
     "use strict";
+    locales = locales || {};
 
     var XFORM_TYPE_MAP = {
         'text-private': 'password',
@@ -37,18 +40,42 @@
         'list-multi': 'dropdown'
     };
 
-    var isImage = function (url) {
-        var deferred = new $.Deferred();
-        $("<img>", {
-            src: url,
-            error: deferred.reject,
-            load: deferred.resolve
-        });
-        return deferred.promise();
+    var afterAnimationEnd = function (el, callback) {
+        el.classList.remove('visible');
+        if (_.isFunction(callback)) {
+            callback();
+        }
     };
 
-    $.expr[':'].emptyVal = function(obj){
-        return obj.value === '';
+    var unescapeHTML = function (htmlEscapedText) {
+        /* Helper method that replace HTML-escaped symbols with equivalent characters
+         * (e.g. transform occurrences of '&amp;' to '&')
+         *
+         * Parameters:
+         *  (String) htmlEscapedText: a String containing the HTML-escaped symbols.
+         */
+        var div = document.createElement('div');
+        div.innerHTML = htmlEscapedText;
+        return div.innerText;
+    }
+
+    var isImage = function (url) {
+        var deferred = new $.Deferred();
+        var img = new Image();
+        var timer = window.setTimeout(function () {
+            deferred.reject();
+            img = null;
+        }, 3000);
+        img.onerror = img.onabort = function () {
+            clearTimeout(timer);
+            deferred.reject();
+        };
+        img.onload = function () {
+            clearTimeout(timer);
+            deferred.resolve(img);
+        };
+        img.src = url;
+        return deferred.promise();
     };
 
     $.fn.hasScrollBar = function() {
@@ -78,13 +105,13 @@
                     }
                 }
                 $obj.html(x);
-                _.each(list, function (url) {
-                    isImage(url).then(function () {
+                _.forEach(list, function (url) {
+                    isImage(unescapeHTML(url)).then(function (img) {
                         var prot = url.indexOf('http://') === 0 || url.indexOf('https://') === 0 ? '' : 'http://';
                         var escaped_url = encodeURI(decodeURI(url)).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
                         var new_url = '<a target="_blank" rel="noopener" href="' + prot + escaped_url + '">'+ url + '</a>';
-                        event.target.className = 'chat-image';
-                        x = x.replace(new_url, event.target.outerHTML);
+                        img.className = 'chat-image';
+                        x = x.replace(new_url, img.outerHTML);
                         $obj.throttledHTML(x);
                     });
                 });
@@ -132,20 +159,11 @@
         // Translation machinery
         // ---------------------
         __: function (str) {
-            if (typeof Jed === "undefined") {
-                return str;
-            }
-            // FIXME: this can be refactored to take the i18n obj as a
-            // parameter.
-            // Translation factory
-            if (typeof this.i18n === "undefined") {
-                this.i18n = locales.en;
-            }
-            if (typeof this.i18n === "string") {
-                this.i18n = $.parseJSON(this.i18n);
+            if (!utils.isConverseLocale(this.locale) || this.locale === 'en') {
+                return Jed.sprintf.apply(Jed, arguments);
             }
             if (typeof this.jed === "undefined") {
-                this.jed = new Jed(this.i18n);
+                this.jed = new Jed(window.JSON.parse(locales[this.locale]));
             }
             var t = this.jed.translate(str);
             if (arguments.length>1) {
@@ -182,66 +200,89 @@
             }
         },
 
-        detectLocale: function (library_check) {
-            /* Determine which locale is supported by the user's system as well
-             * as by the relevant library (e.g. converse.js or moment.js).
-             *
-             * Parameters:
-             *      (Function) library_check - returns a boolean indicating whether the locale is supported
-             */
-            var locale, i;
-            if (window.navigator.userLanguage) {
-                locale = utils.isLocaleAvailable(window.navigator.userLanguage, library_check);
-            }
-            if (window.navigator.languages && !locale) {
-                for (i=0; i<window.navigator.languages.length && !locale; i++) {
-                    locale = utils.isLocaleAvailable(window.navigator.languages[i], library_check);
+        fadeIn: function (el, callback) {
+            if ($.fx.off) {
+                el.classList.remove('hidden');
+                if (_.isFunction(callback)) {
+                    callback();
                 }
+                return;
             }
-            if (window.navigator.browserLanguage && !locale) {
-                locale = utils.isLocaleAvailable(window.navigator.browserLanguage, library_check);
+            if (_.includes(el.classList, 'hidden')) {
+                /* XXX: This doesn't appear to be working...
+                    el.addEventListener("webkitAnimationEnd", _.partial(afterAnimationEnd, el, callback), false);
+                    el.addEventListener("animationend", _.partial(afterAnimationEnd, el, callback), false);
+                */
+                setTimeout(_.partial(afterAnimationEnd, el, callback), 351);
+                el.classList.add('visible');
+                el.classList.remove('hidden');
+            } else {
+                afterAnimationEnd(el, callback);
             }
-            if (window.navigator.language && !locale) {
-                locale = utils.isLocaleAvailable(window.navigator.language, library_check);
-            }
-            if (window.navigator.systemLanguage && !locale) {
-                locale = utils.isLocaleAvailable(window.navigator.systemLanguage, library_check);
-            }
-            return locale || 'en';
         },
 
         isOTRMessage: function (message) {
-            var $body = $(message).children('body'),
-                text = ($body.length > 0 ? $body.text() : undefined);
+            var body = message.querySelector('body'),
+                text = (!_.isNull(body) ? body.textContent: undefined);
             return text && !!text.match(/^\?OTR/);
         },
 
         isHeadlineMessage: function (message) {
-            var $message = $(message),
-                from_jid = $message.attr('from');
-            if ($message.attr('type') === 'headline' ||
+            var from_jid = message.getAttribute('from');
+            if (message.getAttribute('type') === 'headline') {
+                return true;
+            }
+            if (message.getAttribute('type') !== 'error' &&
+                    !_.isNil(from_jid) &&
+                    !_.includes(from_jid, '@')) {
                 // Some servers (I'm looking at you Prosody) don't set the message
                 // type to "headline" when sending server messages. For now we
                 // check if an @ signal is included, and if not, we assume it's
                 // a headline message.
-                (   $message.attr('type') !== 'error' &&
-                    typeof from_jid !== 'undefined' &&
-                    from_jid.indexOf('@') === -1
-                )) {
                 return true;
             }
             return false;
+        },
+
+        merge: function merge (first, second) {
+            /* Merge the second object into the first one.
+             */
+            for (var k in second) {
+                if (_.isObject(first[k])) {
+                    merge(first[k], second[k]);
+                } else {
+                    first[k] = second[k];
+                }
+            }
+        },
+
+        applyUserSettings: function applyUserSettings (context, settings, user_settings) {
+            /* Configuration settings might be nested objects. We only want to
+             * add settings which are whitelisted.
+             */
+            for (var k in settings) {
+                if (_.isUndefined(user_settings[k])) {
+                    continue;
+                }
+                if (_.isObject(settings[k]) && !_.isArray(settings[k])) {
+                    applyUserSettings(context[k], settings[k], user_settings[k]);
+                } else {
+                    context[k] = user_settings[k];
+                }
+            }
         },
 
         refreshWebkit: function () {
             /* This works around a webkit bug. Refreshes the browser's viewport,
              * otherwise chatboxes are not moved along when one is closed.
              */
-            if ($.browser.webkit) {
-                var conversejs = document.getElementById('conversejs');
-                conversejs.style.display = 'none';
-                var tmp = conversejs.offsetHeight; // jshint ignore:line
-                conversejs.style.display = 'block';
+            if ($.browser.webkit && window.requestAnimationFrame) {
+                window.requestAnimationFrame(function () {
+                    var conversejs = document.getElementById('conversejs');
+                    conversejs.style.display = 'none';
+                    var tmp = conversejs.offsetHeight; // jshint ignore:line
+                    conversejs.style.display = 'block';
+                });
             }
         },
 
@@ -276,12 +317,12 @@
             return function (item) {
                 if (typeof attr === 'object') {
                     var value = false;
-                    _.each(attr, function (a) {
-                        value = value || item.get(a).toLowerCase().indexOf(query.toLowerCase()) !== -1;
+                    _.forEach(attr, function (a) {
+                        value = value || _.includes(item.get(a).toLowerCase(), query.toLowerCase());
                     });
                     return value;
                 } else if (typeof attr === 'string') {
-                    return item.get(attr).toLowerCase().indexOf(query.toLowerCase()) !== -1;
+                    return _.includes(item.get(attr).toLowerCase(), query.toLowerCase());
                 } else {
                     throw new TypeError('contains: wrong attribute type. Must be string or array.');
                 }
@@ -311,7 +352,7 @@
                     options.push(tpl_select_option({
                         value: value,
                         label: $($options[j]).attr('label'),
-                        selected: (values.indexOf(value) >= 0),
+                        selected: _.startsWith(values, value),
                         required: $field.find('required').length
                     }));
                 }
@@ -376,10 +417,79 @@
         }
     };
 
+    utils.detectLocale = function (library_check) {
+        /* Determine which locale is supported by the user's system as well
+         * as by the relevant library (e.g. converse.js or moment.js).
+         *
+         * Parameters:
+         *      (Function) library_check - returns a boolean indicating whether
+         *          the locale is supported.
+         */
+        var locale, i;
+        if (window.navigator.userLanguage) {
+            locale = utils.isLocaleAvailable(window.navigator.userLanguage, library_check);
+        }
+        if (window.navigator.languages && !locale) {
+            for (i=0; i<window.navigator.languages.length && !locale; i++) {
+                locale = utils.isLocaleAvailable(window.navigator.languages[i], library_check);
+            }
+        }
+        if (window.navigator.browserLanguage && !locale) {
+            locale = utils.isLocaleAvailable(window.navigator.browserLanguage, library_check);
+        }
+        if (window.navigator.language && !locale) {
+            locale = utils.isLocaleAvailable(window.navigator.language, library_check);
+        }
+        if (window.navigator.systemLanguage && !locale) {
+            locale = utils.isLocaleAvailable(window.navigator.systemLanguage, library_check);
+        }
+        return locale || 'en';
+    };
+
+    utils.isConverseLocale = function (locale) {
+        if (!_.isString(locale)) { return false; }
+        return _.includes(_.keys(locales || {}), locale)
+    };
+
+    utils.isMomentLocale  = function (locale) {
+        if (!_.isString(locale)) { return false; }
+        return moment.locale() !== moment.locale(locale);
+    }
+
+    utils.getLocale = function (preferred_locale, isSupportedByLibrary) {
+        if (_.isString(preferred_locale)) {
+            if (preferred_locale === 'en' || isSupportedByLibrary(preferred_locale)) {
+                return preferred_locale;
+            }
+            try {
+                var obj = window.JSON.parse(preferred_locale);
+                return obj.locale_data.converse[""].lang;
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        return utils.detectLocale(isSupportedByLibrary) || 'en';
+    };
+
     utils.contains.not = function (attr, query) {
         return function (item) {
             return !(utils.contains(attr, query)(item));
         };
     };
+
+    utils.createElementsFromString = function (element, html) {
+        // http://stackoverflow.com/questions/9334645/create-node-from-markup-string
+        var frag = document.createDocumentFragment(),
+            tmp = document.createElement('body'), child;
+        tmp.innerHTML = html;
+        // Append elements in a loop to a DocumentFragment, so that the browser does
+        // not re-render the document for each node
+        while (child = tmp.firstChild) {  // eslint-disable-line no-cond-assign
+            frag.appendChild(child);
+        }
+        element.appendChild(frag); // Now, append all elements at once
+        frag = tmp = null;
+    }
+
     return utils;
 }));

@@ -109,7 +109,6 @@ a:focus {
     }
 }
 
-
 .features-section,
 .outro,
 .intro {
@@ -139,6 +138,9 @@ a:focus {
   font-size: 2em;
   text-align: center;
   margin-top: 3em;
+}
+.brand-heading-embedded {
+    margin-top: 1.5em;
 }
 .intro-text {
   font-size: 18px;

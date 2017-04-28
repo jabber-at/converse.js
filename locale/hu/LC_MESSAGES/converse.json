@@ -6,6 +6,46 @@
             "domain": "converse",
             "lang": "hu"
          },
+         "Bookmark this room": [
+            null,
+            ""
+         ],
+         "The name for this bookmark:": [
+            null,
+            ""
+         ],
+         "Would you like this room to be automatically joined upon startup?": [
+            null,
+            ""
+         ],
+         "What should your nickname for this room be?": [
+            null,
+            ""
+         ],
+         "Save": [
+            null,
+            "Ment"
+         ],
+         "Cancel": [
+            null,
+            "Mégsem"
+         ],
+         "Bookmarked Rooms": [
+            null,
+            ""
+         ],
+         "Click to open this room": [
+            null,
+            "Belépés a csevegőszobába"
+         ],
+         "Show more information on this room": [
+            null,
+            "További információk a csevegőszobáról"
+         ],
+         "Remove this bookmark": [
+            null,
+            ""
+         ],
          "Close this chat box": [
             null,
             "A csevegés bezárása"
@@ -13,6 +53,10 @@
          "Personal message": [
             null,
             "Személyes üzenet"
+         ],
+         "Send": [
+            null,
+            ""
          ],
          "me": [
             null,
@@ -22,9 +66,17 @@
             null,
             ""
          ],
+         "Typing from another device": [
+            null,
+            ""
+         ],
          "is typing": [
             null,
             "gépel..."
+         ],
+         "Stopped typing on the other device": [
+            null,
+            ""
          ],
          "has stopped typing": [
             null,
@@ -62,10 +114,6 @@
             null,
             "Üzenetek törlése"
          ],
-         "Hide the list of occupants": [
-            null,
-            "A résztvevők listájának elrejtése"
-         ],
          "Insert a smiley": [
             null,
             "Hangulatjel beszúrása"
@@ -77,10 +125,6 @@
          "Contacts": [
             null,
             "Kapcsolatok"
-         ],
-         "Connecting": [
-            null,
-            "Kapcsolódás"
          ],
          "XMPP Username:": [
             null,
@@ -125,10 +169,6 @@
          "Custom status": [
             null,
             "Egyedi státusz"
-         ],
-         "Save": [
-            null,
-            "Ment"
          ],
          "online": [
             null,
@@ -202,10 +242,6 @@
             null,
             "Csevegőablak"
          ],
-         "Click to hide these contacts": [
-            null,
-            "A csevegő partnerek elrejtése"
-         ],
          "Reconnecting": [
             null,
             "Kapcsolódás"
@@ -214,13 +250,9 @@
             null,
             ""
          ],
-         "Disconnected": [
+         "Connecting": [
             null,
-            "Szétkapcsolva"
-         ],
-         "The connection to the chat server has dropped": [
-            null,
-            ""
+            "Kapcsolódás"
          ],
          "Authenticating": [
             null,
@@ -238,6 +270,14 @@
             null,
             "Ez a kliens nem engedélyezi a jelenlét követését"
          ],
+         "Click to hide these contacts": [
+            null,
+            "A csevegő partnerek elrejtése"
+         ],
+         "Minimize this chat box": [
+            null,
+            "A csevegés minimalizálása"
+         ],
          "Click to restore this chat": [
             null,
             "A csevegés visszaállítása"
@@ -246,17 +286,65 @@
             null,
             "Minimalizálva"
          ],
-         "Minimize this chat box": [
+         "This room is not anonymous": [
             null,
-            "A csevegés minimalizálása"
+            "Ez a szoba NEM névtelen"
+         ],
+         "This room now shows unavailable members": [
+            null,
+            "Ez a szoba mutatja az elérhetetlen tagokat"
+         ],
+         "This room does not show unavailable members": [
+            null,
+            "Ez a szoba nem mutatja az elérhetetlen tagokat"
+         ],
+         "Room logging is now enabled": [
+            null,
+            "A szobába a belépés lehetséges"
+         ],
+         "Room logging is now disabled": [
+            null,
+            "A szobába a belépés szünetel"
+         ],
+         "This room is now semi-anonymous": [
+            null,
+            "Ez a szoba most félig névtelen"
+         ],
+         "This room is now fully-anonymous": [
+            null,
+            "Ez a szoba most teljesen névtelen"
+         ],
+         "A new room has been created": [
+            null,
+            "Létrejött egy új csevegőszoba"
+         ],
+         "You have been banned from this room": [
+            null,
+            "Ki lettél tíltva ebből a szobából"
+         ],
+         "You have been kicked from this room": [
+            null,
+            "Ki lettél dobva ebből a szobából"
+         ],
+         "You have been removed from this room because of an affiliation change": [
+            null,
+            "Taglista módosítás miatt kiléptettünk a csevegőszobából"
+         ],
+         "You have been removed from this room because the room has changed to members-only and you're not a member": [
+            null,
+            "Kiléptettünk a csevegőszobából, mert mostantól csak a taglistán szereplők lehetnek jelen"
+         ],
+         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
+            null,
+            "Kiléptettünk a csevegőszobából, mert a MUC (Multi-User Chat) szolgáltatás leállításra került."
          ],
          "Message": [
             null,
             "Üzenet"
          ],
-         "Error: could not execute the command": [
+         "Hide the list of occupants": [
             null,
-            "Hiba: A parancs nem értelmezett"
+            "A résztvevők listájának elrejtése"
          ],
          "Error: the \"": [
             null,
@@ -265,6 +353,10 @@
          "Are you sure you want to clear the messages from this room?": [
             null,
             "Törölni szeretné az üzeneteket ebből a szobából?"
+         ],
+         "Error: could not execute the command": [
+            null,
+            "Hiba: A parancs nem értelmezett"
          ],
          "Change user's affiliation to admin": [
             null,
@@ -310,21 +402,13 @@
             null,
             "Tagság megvonása a felhasználótól"
          ],
-         "Set room topic": [
+         "Set room subject (alias for /subject)": [
             null,
-            "Csevegőszoba téma beállítása"
+            ""
          ],
          "Allow muted user to post messages": [
             null,
             "Elnémított felhasználók is küldhetnek üzeneteket"
-         ],
-         "Cancel": [
-            null,
-            "Mégsem"
-         ],
-         "An error occurred while trying to save the form.": [
-            null,
-            "Hiba történt az adatok mentése közben."
          ],
          "The nickname you chose is reserved or currently in use, please choose a different one.": [
             null,
@@ -346,125 +430,93 @@
             null,
             "Küldés"
          ],
-         "This room is not anonymous": [
-            null,
-            "Ez a szoba NEM névtelen"
-         ],
-         "This room now shows unavailable members": [
-            null,
-            "Ez a szoba mutatja az elérhetetlen tagokat"
-         ],
-         "This room does not show unavailable members": [
-            null,
-            "Ez a szoba nem mutatja az elérhetetlen tagokat"
-         ],
-         "Non-privacy-related room configuration has changed": [
-            null,
-            "A szoba általános konfigurációja módosult"
-         ],
-         "Room logging is now enabled": [
-            null,
-            "A szobába a belépés lehetséges"
-         ],
-         "Room logging is now disabled": [
-            null,
-            "A szobába a belépés szünetel"
-         ],
-         "This room is now non-anonymous": [
-            null,
-            "Ez a szoba most NEM névtelen"
-         ],
-         "This room is now semi-anonymous": [
-            null,
-            "Ez a szoba most félig névtelen"
-         ],
-         "This room is now fully-anonymous": [
-            null,
-            "Ez a szoba most teljesen névtelen"
-         ],
-         "A new room has been created": [
-            null,
-            "Létrejött egy új csevegőszoba"
-         ],
-         "You have been banned from this room": [
-            null,
-            "Ki lettél tíltva ebből a szobából"
-         ],
-         "You have been kicked from this room": [
-            null,
-            "Ki lettél dobva ebből a szobából"
-         ],
-         "You have been removed from this room because of an affiliation change": [
-            null,
-            "Taglista módosítás miatt kiléptettünk a csevegőszobából"
-         ],
-         "You have been removed from this room because the room has changed to members-only and you're not a member": [
-            null,
-            "Kiléptettünk a csevegőszobából, mert mostantól csak a taglistán szereplők lehetnek jelen"
-         ],
-         "You have been removed from this room because the MUC (Multi-user chat) service is being shut down.": [
-            null,
-            "Kiléptettünk a csevegőszobából, mert a MUC (Multi-User Chat) szolgáltatás leállításra került."
-         ],
-         "<strong>%1$s</strong> has been banned": [
-            null,
-            "A szobából kitíltva: <strong>%1$s</strong>"
-         ],
-         "<strong>%1$s</strong>'s nickname has changed": [
-            null,
-            "<strong>%1$s</strong> beceneve módosult"
-         ],
-         "<strong>%1$s</strong> has been kicked out": [
-            null,
-            "A szobából kidobva: <strong>%1$s</strong>"
-         ],
-         "<strong>%1$s</strong> has been removed because of an affiliation change": [
-            null,
-            "Taglista módosítás miatt a szobából kiléptetve: <strong>%1$s</strong>"
-         ],
-         "<strong>%1$s</strong> has been removed for not being a member": [
-            null,
-            "A taglistán nem szerepel, így a szobából kiléptetve: <strong>%1$s</strong>"
-         ],
-         "Your nickname has been changed to: <strong>%1$s</strong>": [
-            null,
-            "A beceneved a következőre módosult: <strong>%1$s</strong>"
-         ],
          "The reason given is: \"": [
             null,
             "Az indok: \""
          ],
-         "You are not on the member list of this room": [
+         " has left the room. \"": [
             null,
-            "Nem szerepelsz a csevegőszoba taglistáján"
+            ""
          ],
-         "No nickname was specified": [
+         " has joined the room. \"": [
             null,
-            "Nem lett megadva becenév"
+            ""
          ],
-         "You are not allowed to create new rooms": [
+         " has joined the room.": [
             null,
-            "Nem lehet új csevegőszobát létrehozni"
-         ],
-         "Your nickname doesn't conform to this room's policies": [
-            null,
-            "A beceneved ütközik a csevegőszoba szabályzataival"
-         ],
-         "This room does not (yet) exist": [
-            null,
-            "Ez a szoba (még) nem létezik"
+            ""
          ],
          "Topic set by %1$s to: %2$s": [
             null,
             "A következő témát állította be %1$s: %2$s"
          ],
+         "Occupants": [
+            null,
+            "Jelenlevők"
+         ],
          "Invite": [
             null,
             "Meghívás"
          ],
-         "Occupants": [
+         "Hidden": [
             null,
-            "Jelenlevők"
+            "Rejtett"
+         ],
+         "Message archiving": [
+            null,
+            ""
+         ],
+         "Members only": [
+            null,
+            ""
+         ],
+         "Moderated": [
+            null,
+            "Moderált"
+         ],
+         "Non-anonymous": [
+            null,
+            "NEM névtelen"
+         ],
+         "Persistent": [
+            null,
+            ""
+         ],
+         "Public": [
+            null,
+            "Nyílvános"
+         ],
+         "Semi-anonymous": [
+            null,
+            "Félig névtelen"
+         ],
+         "Unmoderated": [
+            null,
+            "Moderálatlan"
+         ],
+         "Unsecured": [
+            null,
+            ""
+         ],
+         "Messages are archived on the server": [
+            null,
+            ""
+         ],
+         "All other room occupants can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room persists even if it's unoccupied": [
+            null,
+            ""
+         ],
+         "Only moderators can see your Jabber ID": [
+            null,
+            ""
+         ],
+         "This room will disappear once the last person leaves": [
+            null,
+            ""
          ],
          "You are about to invite %1$s to the chat room \"%2$s\". ": [
             null,
@@ -502,14 +554,6 @@
             null,
             "Csevegőszobák a(z) %1$s szerveren:"
          ],
-         "Click to open this room": [
-            null,
-            "Belépés a csevegőszobába"
-         ],
-         "Show more information on this room": [
-            null,
-            "További információk a csevegőszobáról"
-         ],
          "Description:": [
             null,
             "Leírás:"
@@ -526,21 +570,9 @@
             null,
             "Azonosítás szükséges"
          ],
-         "Hidden": [
-            null,
-            "Rejtett"
-         ],
          "Requires an invitation": [
             null,
             "Meghívás szükséges"
-         ],
-         "Moderated": [
-            null,
-            "Moderált"
-         ],
-         "Non-anonymous": [
-            null,
-            "NEM névtelen"
          ],
          "Open room": [
             null,
@@ -550,21 +582,9 @@
             null,
             "Állandó szoba"
          ],
-         "Public": [
-            null,
-            "Nyílvános"
-         ],
-         "Semi-anonymous": [
-            null,
-            "Félig névtelen"
-         ],
          "Temporary room": [
             null,
             "Ideiglenes szoba"
-         ],
-         "Unmoderated": [
-            null,
-            "Moderálatlan"
          ],
          "%1$s has invited you to join a chat room: %2$s": [
             null,
@@ -765,6 +785,10 @@
          "The provider rejected your registration attempt. Please check the values you entered for correctness.": [
             null,
             "A szolgáltató visszautasította a regisztrációs kérelmet. Kérem ellenőrízze a bevitt adatok pontosságát."
+         ],
+         "Retry": [
+            null,
+            ""
          ],
          "This contact is busy": [
             null,

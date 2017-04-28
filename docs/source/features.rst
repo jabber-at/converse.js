@@ -63,13 +63,10 @@ Languages increase the size of the Converse.js significantly.
 If you only need one, or a subset of the available languages, it's better to
 make a custom build which includes only those languages that you need.
 
-Chat Rooms
-==========
+Moderating chat rooms
+=====================
 
-Commands
---------
-
-Here are the different commands that may be used in a chat room:
+Here are the different commands that may be used to moderate a chat room:
 
 +------------+----------------------------------------------------------------------------------------------+---------------------------------------------------------------+
 | Event Type | When is it triggered?                                                                        | Example (substitue $nickname with an actual user's nickname)  |
@@ -96,3 +93,12 @@ Here are the different commands that may be used in a chat room:
 +------------+----------------------------------------------------------------------------------------------+---------------------------------------------------------------+
 | **voice**  | Allow a muted user to post messages to the room.                                             | /voice $nickname [$reason]                                    |
 +------------+----------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+
+Passwordless login with client certificates
+===========================================
+
+Converse.js supports the SASL-EXTERNAL authentication mechanism, which can be
+used together with x509 client certificates to enable passwordless login or
+even 2-factor authentication.
+
+For more info, `read this blog post <https://opkode.com/blog/strophe_converse_sasl_external/>`_.
